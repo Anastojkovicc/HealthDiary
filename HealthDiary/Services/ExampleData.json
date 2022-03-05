@@ -1,0 +1,27 @@
+{
+    "users": {
+        "<user-id>": {
+            "firstName": "Ana",
+            "lastName": "Stojkovic",
+            "appointments": {
+                "<appointment-id>": true
+            }
+        }
+    },
+    "appointments": {
+        "<appointment-id>": {
+            "type": "ORL",
+            "date": "2020-05-20  ISO8601"
+            "medications": {
+                "<medication-id>": true
+            }
+        }
+    }
+    "medications": {
+        "<medication-id>": {
+            "name": "Sinacilin",
+            "consumption": "3x1 per day"
+            "archived": true
+        }
+    }
+}
