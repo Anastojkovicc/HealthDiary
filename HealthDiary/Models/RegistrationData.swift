@@ -13,3 +13,8 @@ struct RegistrationData: Encodable {
     let email: String
     let password: String
 }
+
+struct LoginData: Encodable {
+    let email: String
+    let password: String
+}

@@ -6,64 +6,56 @@
 //
 
 import Foundation
+import Alamofire
 
-
-var appointmentList: [Appointment] = [
-    Appointment(speciality: "Oftalmolog", note: "Konjuktivitis", date: Date(), medicationList: [Medication(name: "Floxal", consumption: "3x1 u oba oka 5 dana", archived: true), Medication(name: "Proculin", consumption: "po potrebi", archived: false)]),
-    Appointment(speciality: "Dermatolog", note: "Ekcem", date: Date(), medicationList:
-                    [Medication(name: "Pantenol", consumption: "Ujutru i uvece", archived: false)])
-]
-
-
-enum AppointmentsError: Error {
-    case invalidParametars
-}
 
 class AppointmentsService {
     
+    struct UserID: Encodable {
+        let userId: String
+    }
+    
     func getAppointmentsList(user: User, completion: @escaping(Result<[Appointment], AppointmentsError>) -> Void){
+        let request = RequestFactory.makeRequest(method: .get,
+                                                 path: "/appointments",
+                                                 queryItems: [
+                                                    URLQueryItem(name: "userId", value: "\(user.id)")
+                                                 ]
+        )
         
-        completion(.success([Appointment].init()))
+        AF.request(request)
+            .responseData(completionHandler: { response in
+                switch response.result {
+                case .success(let data):
+                    do {
+                        let decoder = JSONDecoder()
+                        decoder.dateDecodingStrategy = .iso8601
+                        let appointmentsDTO = try decoder.decode([AppointmentDTO].self, from: data)
+                        var appointments : [Appointment] = []
+                        for appointment in appointmentsDTO{
+                            let newAppointment = Appointment.init(id: appointment.id, type: appointment.type, note: appointment.note, date: appointment.date, medications: [])
+                            appointments.append(newAppointment)
+                        }
+                        completion(.success(appointments))
+                    } catch {
+                        completion(.failure(.invalidParametars))
+                    }
+                case .failure(let error):
+                    debugPrint(error)
+                    completion(.failure(.invalidParametars))
+                }
+            }).cURLDescription(calling: { description in
+                print(description)
+            })
     }
     
     func deleteAppointment(appointment: Appointment, completion: @escaping(Result<Bool, AppointmentsError>) -> Void ){
-        
-        var currIndex = 0
-        let allApp = appointmentList.count
-        
-        repeat{
-            if appointmentList[currIndex].speciality == appointment.speciality && appointmentList[currIndex].note == appointment.note && appointmentList[currIndex].date == appointment.date {
-                appointmentList.remove(at: currIndex)
-                completion(.success(true))
-                return
-            }
-            currIndex += 1
-        } while (currIndex<=allApp)
     }
     
     func getAppointment(appointment:Appointment ,completion: @escaping(Result<Appointment, AppointmentsError>) -> Void){
-        for app in appointmentList {
-            if app.speciality == appointment.speciality && app.note == appointment.note && app.date == appointment.date {
-                completion(.success(app))
-            }
-        }
     }
     
     func changeAppointment(old:Appointment , new: Appointment, completion: @escaping(Result<Bool, AppointmentsError>) -> Void){
-        var index: Int!
-        
-        for (indexApp, element) in appointmentList.enumerated() {
-            if element.speciality == old.speciality && element.date == old.date && element.note == old.note {
-                index = indexApp
-            }
-        }
-        
-        if index != nil {
-            appointmentList[index] = new
-            completion(.success(true))
-        } else {
-            completion(.success(false))
-        }
         
     }
 }

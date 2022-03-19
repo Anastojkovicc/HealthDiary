@@ -15,7 +15,7 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var errorLabel: UILabel!
    
-    public var loggedUser: User?
+    let service = LoginService()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,13 +44,13 @@ class LoginViewController: UIViewController {
         } else {
             let email = emailTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
             let password =  passwordTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
-            let service = LoginService()
+
             service.login(email: email, password: password) { result in
                 switch result {
                 case .success(let user):
                     if(user.password == password) {
                         print(user.email + " logged in ")
-                        self.loggedUser = user
+                        DataStorage.shared.loggedUser = user
                         self.transitionToHome()
                     } else {
                         self.showError("Wrong password!")

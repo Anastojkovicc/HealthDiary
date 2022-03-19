@@ -23,7 +23,7 @@ class SelectedAppointmentController: UIViewController, UITableViewDelegate, UITa
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        specialityTextField.text = appointment?.speciality
+        specialityTextField.text = appointment?.type
         noteTextView.text = appointment?.note
         
         tableView.dataSource = self
@@ -56,7 +56,6 @@ class SelectedAppointmentController: UIViewController, UITableViewDelegate, UITa
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         closeDatePicker()
     }
-    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -98,7 +97,7 @@ class SelectedAppointmentController: UIViewController, UITableViewDelegate, UITa
         
         errorLabel.alpha = 0
         
-        if appointment.medicationList.isEmpty {
+        if appointment.medications.isEmpty {
             medicationListLabel.alpha = 0
         } else {
             medicationListLabel.alpha = 1
@@ -124,7 +123,7 @@ class SelectedAppointmentController: UIViewController, UITableViewDelegate, UITa
         editAppointmentButton.title = "Close"
         editAppointmentButton.tintColor = UIColor.black
         
-        if appointment.medicationList.isEmpty {
+        if appointment.medications.isEmpty {
             medicationListLabel.alpha = 0
         } else {
             medicationListLabel.alpha = 1
@@ -149,12 +148,12 @@ class SelectedAppointmentController: UIViewController, UITableViewDelegate, UITa
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "AppMedicationCell", for: indexPath)
         
-        cell.textLabel?.text = appointment?.medicationList[indexPath.row].name
+        cell.textLabel?.text = appointment?.medications[indexPath.row].name
         cell.textLabel?.font = UIFont.systemFont(ofSize: 16)
         
         cell.detailTextLabel?.font = UIFont.systemFont(ofSize: 14)
-        if appointment?.medicationList != nil {
-            if appointment!.medicationList[indexPath.row].archived {
+        if appointment?.medications != nil {
+            if appointment!.medications[indexPath.row].isArchived {
                 cell.detailTextLabel?.text = "archived"
                 cell.detailTextLabel?.textColor = UIColor.gray
             } else {
@@ -168,7 +167,7 @@ class SelectedAppointmentController: UIViewController, UITableViewDelegate, UITa
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return appointment!.medicationList.count
+        return appointment!.medications.count
     }
     
     @IBAction func onTapDelete(_ sender: Any) {
@@ -179,27 +178,6 @@ class SelectedAppointmentController: UIViewController, UITableViewDelegate, UITa
                 let dateFormatter = DateFormatter()
                 dateFormatter.dateFormat = "dd.MM.yyyy."
                 let date: Date = dateFormatter.date(from: self.dateTextField.text!.trimmingCharacters( in: .whitespacesAndNewlines))!
-                
-                let newApp: Appointment = Appointment.init(speciality: self.specialityTextField.text?.capitalized ?? "", note: self.noteTextView.text?.capitalized ?? "" , date: date , medicationList: self.appointment.medicationList)
-                
-                if self.specialityTextField.text != "" {
-                    let service = AppointmentsService()
-                    
-                    service.changeAppointment(old: self.appointment, new: newApp ) { result in
-                        switch result {
-                        case .success(let saved):
-                            if saved { print("Saved")
-                                self.navigationController?.popViewController(animated: true)
-                            }
-                            else { print("Not saved")}
-                        case .failure(let savingError):
-                            print(savingError.localizedDescription)
-                        }
-                    }
-                } else {
-                    self.errorLabel.alpha = 1
-                    self.errorLabel.text = "Speciality is required field!"
-                }
             }))
             
             alert.addAction(UIAlertAction(title: "No", style: UIAlertAction.Style.destructive, handler: nil ))
@@ -234,7 +212,7 @@ class SelectedAppointmentController: UIViewController, UITableViewDelegate, UITa
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let destination = segue.destination as? SelectedMedicationController {
-            destination.medication = appointment.medicationList[(tableView.indexPathForSelectedRow?.row)!]
+            destination.medication = appointment.medications[(tableView.indexPathForSelectedRow?.row)!]
         }
     }
     
@@ -246,7 +224,7 @@ class SelectedAppointmentController: UIViewController, UITableViewDelegate, UITa
             let alert : UIAlertController = UIAlertController( title: "Close", message: "Do you really want to discard changes?", preferredStyle: UIAlertController.Style.alert)
             alert.addAction(UIAlertAction(title: "Yes", style: UIAlertAction.Style.default, handler: { (myAlert) in
                 
-                self.specialityTextField.text = self.appointment?.speciality
+                self.specialityTextField.text = self.appointment?.type
                 self.noteTextView.text = self.appointment?.note
                 self.dateTextField.text = self.formatDate(date: self.appointment?.date ?? Date())
                 

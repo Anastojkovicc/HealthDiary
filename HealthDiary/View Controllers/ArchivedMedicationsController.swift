@@ -23,7 +23,8 @@ class ArchivedMedicationsController: UIViewController, UITableViewDelegate, UITa
         setNav()
         
         let service = MedicationsService()
-        archivedMedications = service.getArchivedMedications()
+        archivedMedications = []
+//            service.getArchivedMedications()
         tableView.reloadData()
         tableView.dataSource = self
         tableView.delegate = self
@@ -45,7 +46,8 @@ class ArchivedMedicationsController: UIViewController, UITableViewDelegate, UITa
         super.viewWillAppear(animated)
         setNav()
         let service = MedicationsService()
-        archivedMedications = service.getArchivedMedications()
+        archivedMedications = []
+//            service.getArchivedMedications()
         tableView.reloadData()
         if searching {
             searching = false

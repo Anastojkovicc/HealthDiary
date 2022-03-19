@@ -7,10 +7,29 @@
 
 import Foundation
 
-struct Appointment: Identifiable {
-    let id = UUID()
-    var speciality: String
-    var note: String
-    var date: Date
-    var medicationList : [Medication]
+struct Appointment {
+    let id: String
+    let type: String
+    let note: String
+    let date: Date
+    var medications : [Medication]
 }
+
+struct AppointmentDTO: Decodable {
+    let id: String
+    let type: String
+    let note: String
+    let date: Date
+}
+
+struct NewAppointmentData: Encodable {
+    let type: String
+    let date: Date
+    let note: String
+    var userId: String
+    var medications: [NewMedication]
+}
+
+
+
+

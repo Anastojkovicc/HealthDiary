@@ -17,8 +17,6 @@ class SignUpViewController: UIViewController {
     @IBOutlet weak var signUpButton: UIButton!
     @IBOutlet weak var errorLabel: UILabel!
     
-    public var loggedUser: User?
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpElements()
@@ -68,9 +66,10 @@ class SignUpViewController: UIViewController {
                 switch result {
                 case .success(let savedUser):
                     print(savedUser.firstName + " logged in ")
-                    self.loggedUser = savedUser
+                    DataStorage.shared.loggedUser = savedUser
                     self.transitionToHome()
-                case .failure(let savingError): print(savingError.localizedDescription)
+                case .failure(let savingError):
+                    print(savingError.localizedDescription)
                     self.showError("Saving error!")
                 }
             }

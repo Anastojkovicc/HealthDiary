@@ -17,6 +17,8 @@ class NewMedicationViewController: UIViewController {
     @IBOutlet weak var errorLabel: UILabel!
     @IBOutlet weak var saveButton: UIButton!
     
+    let service = NewAppointmentService()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpElements()
@@ -55,21 +57,10 @@ class NewMedicationViewController: UIViewController {
                 
                 let name =  self.nameTextField.text!.trimmingCharacters( in: .whitespacesAndNewlines)
                 let consumption = self.consumptionTextView.text?.trimmingCharacters(in: .whitespacesAndNewlines)
-                let newMedication = Medication.init(name: name, consumption: consumption ?? "" , archived: false)
+                let newMedication = NewMedication.init(name: name, consumption: consumption ?? "")
+                medicationList.append(newMedication)
                 
-                let service = NewMedicationService()
-                service.saveMedication(medication: newMedication) { result in
-                    switch result {
-                    case .success(let saved):
-                        if saved {
-                            self.navigationController?.popViewController(animated: true)
-                        }
-                        else { print("Saving error")}
-                    case .failure(let loginError):
-                        print(loginError.localizedDescription)
-                        self.showError("")
-                    }
-                }
+                self.navigationController?.popViewController(animated: true)
             }))
             alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.destructive, handler: nil ))
             self.present(alert, animated: true, completion: nil)

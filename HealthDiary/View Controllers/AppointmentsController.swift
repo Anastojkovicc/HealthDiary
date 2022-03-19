@@ -16,21 +16,40 @@ class AppointmentsController: UIViewController, UITableViewDelegate, UITableView
     @IBOutlet weak var sortByName: UIButton!
     @IBOutlet weak var sortByDate: UIButton!
     
+    var usersAppointments: [Appointment] = []
+    let service = AppointmentsService()
+    
     var sortDate : Bool = true
     var sortName : Bool = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUpElements()
-        setNav()
+        getList()
         tableView.dataSource = self
         tableView.delegate = self
+        setUpElements()
+        setNav()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        setNav()
+        getList()
         tableView.reloadData()
+        setNav()
+        setUpElements()
+        
+    }
+    
+    func getList(){
+        service.getAppointmentsList(user: DataStorage.shared.loggedUser!) { result in
+            switch result {
+            case .success(let appointments):
+                self.usersAppointments = appointments
+            case .failure(let loginError):
+                print(loginError.localizedDescription)
+            }
+            
+        }
     }
     
     func setNav(){
@@ -41,6 +60,13 @@ class AppointmentsController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func setUpElements(){
+        if usersAppointments.isEmpty{
+            sortByName.alpha = 0
+            sortByDate.alpha = 0
+        } else {
+            sortByName.alpha = 1
+            sortByDate.alpha = 1
+        }
         Utilities.styleSquaredButton(newAppointmentButton)
         self.navigationController?.navigationBar.scalesLargeContentImage = false
     }
@@ -50,8 +76,7 @@ class AppointmentsController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        //zameniti sa appointments
-        return appointmentList.count
+        return usersAppointments.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -59,13 +84,12 @@ class AppointmentsController: UIViewController, UITableViewDelegate, UITableView
         
         let df = DateFormatter()
         df.dateFormat = "dd.MM.yyyy."
-        //zameniti sa appointments
-        let date = df.string(from: appointmentList[indexPath.row].date)
+        let date = df.string(from: usersAppointments[indexPath.row].date)
         
-        cell.textLabel!.text = appointmentList[indexPath.row].speciality + " (" + date + ")"
+        cell.textLabel!.text = usersAppointments[indexPath.row].type + " (" + date + ")"
         cell.textLabel!.font =  UIFont.systemFont(ofSize: 20)
         cell.detailTextLabel?.font =  UIFont.systemFont(ofSize: 14)
-        cell.detailTextLabel?.text = appointmentList[indexPath.row].note
+        cell.detailTextLabel?.text = usersAppointments[indexPath.row].note
         
         cell.imageView!.tintColor = UIColor.init(red: 51/255, green: 203/255, blue: 203/255, alpha: 1) 
         
@@ -85,36 +109,36 @@ class AppointmentsController: UIViewController, UITableViewDelegate, UITableView
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let destination = segue.destination as? SelectedAppointmentController {
-            destination.appointment = appointmentList[(tableView.indexPathForSelectedRow?.row)!]
+            destination.appointment = usersAppointments[(tableView.indexPathForSelectedRow?.row)!]
         }
     }
     
     @IBAction func onTapSortDate(_ sender: Any) {
         if sortDate {
-                    sortDate = false
-                    sortName = true
-                    sortListDescending()
-                } else {
-                    sortDate = true
-                    sortName = true
-                    sortListAscending()
-                }
+            sortDate = false
+            sortName = true
+            sortListDescending()
+        } else {
+            sortDate = true
+            sortName = true
+            sortListAscending()
+        }
     }
     
     func sortListAscending() {
-        if(appointmentList.count > 1) {
-            appointmentList = appointmentList.sorted(by: { $0.date.compare($1.date) == .orderedAscending})
+        if(usersAppointments.count > 1) {
+            usersAppointments = usersAppointments.sorted(by: { $0.date.compare($1.date) == .orderedAscending})
             tableView.reloadData();
         }
     }
     
     func sortListDescending() {
-        if(appointmentList.count > 1) {
-            appointmentList = appointmentList.sorted(by: { $0.date.compare($1.date) == .orderedDescending})
+        if(usersAppointments.count > 1) {
+            usersAppointments = usersAppointments.sorted(by: { $0.date.compare($1.date) == .orderedDescending})
             tableView.reloadData();
         }
     }
-
+    
     @IBAction func onTapSortName(_ sender: Any) {
         if sortName{
             sortName = false
@@ -128,15 +152,15 @@ class AppointmentsController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func sortListNamesAscending() {
-        if(appointmentList.count > 1) {
-            appointmentList = appointmentList.sorted(by: { $0.speciality > $1.speciality } )
+        if(usersAppointments.count > 1) {
+            usersAppointments = usersAppointments.sorted(by: { $0.type > $1.type } )
             tableView.reloadData();
         }
     }
     
     func sortListNamesDescending() {
-        if(appointmentList.count > 1) {
-            appointmentList = appointmentList.sorted(by: { $0.speciality < $1.speciality } )
+        if(usersAppointments.count > 1) {
+            usersAppointments = usersAppointments.sorted(by: { $0.type < $1.type } )
             tableView.reloadData();
         }
     }

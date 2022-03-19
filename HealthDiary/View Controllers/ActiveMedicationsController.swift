@@ -21,7 +21,7 @@ class ActiveMedicationsController: UIViewController, UITableViewDelegate, UITabl
         super.viewDidLoad()
         
         let service = MedicationsService()
-        activeMedications = service.getActiveMedications()
+//        activeMedications = service.getActiveMedications()
         tableView.reloadData()
         setNav()
        
@@ -57,7 +57,7 @@ class ActiveMedicationsController: UIViewController, UITableViewDelegate, UITabl
         super.viewWillAppear(animated)
         setNav()
         let service = MedicationsService()
-        activeMedications = service.getActiveMedications()
+//        activeMedications = service.getActiveMedications()
         if searching {
             searching = false
             searchBar.text = ""

@@ -39,7 +39,7 @@ class SelectedMedicationController: UIViewController {
             consumptionTextView.text = medication?.consumption
         }
         
-        if medication.archived {
+        if medication.isArchived {
             changeStatus.setTitle("Activate", for: UIControl.State.normal)
         } else {
             changeStatus.setTitle("Archive", for: UIControl.State.normal)
@@ -85,7 +85,7 @@ class SelectedMedicationController: UIViewController {
     
     @IBAction func onTapChange(_ sender: Any) {
         var title: String?
-        if medication.archived {
+        if medication.isArchived {
             title = "Activate"
         } else {
             title = "Archive"
@@ -93,40 +93,6 @@ class SelectedMedicationController: UIViewController {
         let alert : UIAlertController = UIAlertController( title: title, message: "Do you really want to edit this medication?", preferredStyle: UIAlertController.Style.alert)
         alert.addAction(UIAlertAction(title: "Yes", style: UIAlertAction.Style.default, handler: { (myAlert) in
             
-            let service = MedicationsService()
-            let changeMed : Medication =  Medication.init(name: self.medicationNameTextField.text!.capitalized , consumption: self.consumptionTextView.text?.capitalized ?? "", archived: self.medication.archived )
-            
-            if changeMed.archived {
-                service.setActive(medication: changeMed) { result in
-                    switch result {
-                    case .success(let changed):
-                        if changed {
-                            print("Activated")
-                            self.navigationController?.popViewController(animated: true)
-                        } else {
-                            print("Not activated")
-                        }
-                    case .failure(let changingError):
-                        print(changingError.localizedDescription)
-                    }
-                }
-            }else{
-                service.setArchived(medication: changeMed) { result in
-                    switch result {
-                    case .success(let changed):
-                        if changed {
-                            print("Archived")
-                            self.navigationController?.popViewController(animated: true)
-                            self.dismiss(animated: true, completion: nil)
-                            
-                        } else {
-                            print("Not archived")
-                        }
-                    case .failure(let changingError):
-                        print(changingError.localizedDescription)
-                    }
-                }
-            }
         }))
         
         alert.addAction(UIAlertAction(title: "No", style: UIAlertAction.Style.destructive, handler: nil ))
@@ -151,24 +117,6 @@ class SelectedMedicationController: UIViewController {
         let alert : UIAlertController = UIAlertController( title: "Save", message: "Do you really want to save changes?", preferredStyle: UIAlertController.Style.alert)
         alert.addAction(UIAlertAction(title: "Yes", style: UIAlertAction.Style.default, handler: { (myAlert) in
             
-            let newMed : Medication =  Medication.init(name: self.medicationNameTextField.text?.capitalized ?? "", consumption: self.consumptionTextView.text?.capitalized ?? "", archived: self.medication.archived )
-            if self.medicationNameTextField.text != "" {
-                let service = MedicationsService()
-                service.changeMedication(old: self.medication, new: newMed) { result in
-                    switch result {
-                    case .success(let saved):
-                        if saved { print("Saved")
-                            self.navigationController?.popViewController(animated: true)
-                        }
-                        else { print("Not saved")}
-                    case .failure(let savingError):
-                        print(savingError.localizedDescription)
-                    }
-                }
-            } else {
-                self.errorLabel.alpha = 1
-                self.errorLabel.text = "Name of medication is required!"
-            }
         }))
         
         alert.addAction(UIAlertAction(title: "No", style: UIAlertAction.Style.destructive, handler: nil ))

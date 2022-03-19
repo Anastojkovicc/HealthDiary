@@ -5,7 +5,7 @@
 //  Created by Ana Stojkovic on 21.1.22..
 //
 
-var medicationList: [Medication] = []
+var medicationList: [NewMedication] = []
 
 import UIKit
 
@@ -22,6 +22,7 @@ class NewAppointmentController: UIViewController, UITableViewDelegate, UITableVi
     @IBOutlet weak var errorLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
     
+    let service = NewAppointmentService()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,7 +70,6 @@ class NewAppointmentController: UIViewController, UITableViewDelegate, UITableVi
         
         dateTextField.inputView = datePicker
         dateTextField.text = formatDate(date: Date())
-
     }
     
     func closeDatePicker() {
@@ -124,13 +124,10 @@ class NewAppointmentController: UIViewController, UITableViewDelegate, UITableVi
         cell.textLabel!.font =  UIFont.systemFont(ofSize: 18)
         
         cell.detailTextLabel?.font = UIFont.systemFont(ofSize: 14)
-        if medicationList[indexPath.row].archived {
-            cell.detailTextLabel?.text = "archived"
-            cell.detailTextLabel?.textColor = UIColor.gray
-        } else {
-            cell.detailTextLabel?.text = "active"
-            cell.detailTextLabel?.textColor = UIColor.init(red: 51/255, green: 203/255, blue: 203/255, alpha: 1)
-        }
+        
+        cell.detailTextLabel?.text = "active"
+        cell.detailTextLabel?.textColor = UIColor.init(red: 51/255, green: 203/255, blue: 203/255, alpha: 1)
+        
         cell.imageView!.tintColor = UIColor.init(red: 51/255, green: 203/255, blue: 203/255, alpha: 1) 
         
         return cell
@@ -165,7 +162,7 @@ class NewAppointmentController: UIViewController, UITableViewDelegate, UITableVi
         } else {
             Utilities.styleTextField(dateInput)
         }
-        if noteInput.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "Note:" || noteInput.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "N" || noteInput.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "No" || noteInput.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "Not" || noteInput.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "Note" || noteInput.text?.trimmingCharacters(in: .whitespacesAndNewlines) == ":"  || noteInput.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
+        if noteInput.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
             Utilities.styleErrorTextView(noteInput)
             errorMessage = true
         } else {
@@ -195,27 +192,24 @@ class NewAppointmentController: UIViewController, UITableViewDelegate, UITableVi
             let alert : UIAlertController = UIAlertController( title: "Save", message: "Do you really want to save this appointment?", preferredStyle: UIAlertController.Style.alert)
             alert.addAction(UIAlertAction(title: "Save", style: UIAlertAction.Style.default, handler: { (myAlert) in
                 
-                let speciality =  self.specialityInput.text!.trimmingCharacters( in: .whitespacesAndNewlines)
+                let type =  self.specialityInput.text!.trimmingCharacters( in: .whitespacesAndNewlines)
                 
                 let dateFormatter = DateFormatter()
                 dateFormatter.dateFormat = "dd.MM.yyyy."
                 let date: Date = dateFormatter.date(from: self.dateInput.text!.trimmingCharacters( in: .whitespacesAndNewlines))!
                 
                 let note = self.noteInput.text!.trimmingCharacters( in: .whitespacesAndNewlines)
-                let medications : [Medication] = medicationList
+                let medications : [NewMedication] = medicationList
                 
-                let newAppointment = Appointment.init(speciality: speciality, note: note, date: date, medicationList: medications)
+                let newAppointment = NewAppointmentData.init(type: type, date: date, note: note, userId: DataStorage.shared.loggedUser!.id, medications: [])
                 
-                let service = NewAppointmentService()
                 
-                service.saveAppointment(appointment: newAppointment) { result in
+                
+                self.service.saveAppointment(newAppointment: newAppointment, medications: medications) { result in
                     switch result {
                     case .success(let saved):
-                        if saved { print("Saved")
-                            medicationList = []
-                            self.navigationController?.popViewController(animated: true)
-                        }
-                        else { print("Saving error")}
+                        medicationList = []
+                        self.navigationController?.popViewController(animated: true)
                     case .failure(let loginError):
                         print(loginError.localizedDescription)
                         self.showError("")

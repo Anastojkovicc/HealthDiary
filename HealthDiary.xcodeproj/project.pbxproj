@@ -8,12 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		8BC55824D7546DB087A00429 /* Pods_HealthDiary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF4DB5F9B7286AFB550D340E /* Pods_HealthDiary.framework */; };
-		A14B9C5427CC13CD00607AA0 /* ExampleData.json in Resources */ = {isa = PBXBuildFile; fileRef = A14B9C5327CC13CD00607AA0 /* ExampleData.json */; };
-		A14B9C5627CE965B00607AA0 /* UnknownCodingKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14B9C5527CE965B00607AA0 /* UnknownCodingKey.swift */; };
 		A14B9C5927CE9A1600607AA0 /* RequestFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14B9C5827CE9A1600607AA0 /* RequestFactory.swift */; };
 		A14B9C5B27CE9C2F00607AA0 /* RegistrationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14B9C5A27CE9C2F00607AA0 /* RegistrationData.swift */; };
-		A14B9C5D27CE9D3800607AA0 /* FirebaseAutoID.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14B9C5C27CE9D3800607AA0 /* FirebaseAutoID.swift */; };
 		A14B9C5F27D3F7BB00607AA0 /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14B9C5E27D3F7BB00607AA0 /* Errors.swift */; };
+		A14B9C6127D3FA8C00607AA0 /* DataStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14B9C6027D3FA8C00607AA0 /* DataStorage.swift */; };
 		A14EB47E27961CC000A38849 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14EB47D27961CC000A38849 /* AppDelegate.swift */; };
 		A14EB48027961CC000A38849 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14EB47F27961CC000A38849 /* SceneDelegate.swift */; };
 		A14EB48227961CC000A38849 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14EB48127961CC000A38849 /* ViewController.swift */; };
@@ -33,16 +31,12 @@
 		A15EC04327C3C952003B7492 /* archived.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = A15EC04227C3C952003B7492 /* archived.jpeg */; };
 		A15EC05327C3CE91003B7492 /* medications.png in Resources */ = {isa = PBXBuildFile; fileRef = A15EC05027C3CE90003B7492 /* medications.png */; };
 		A15EC05527C3D3FB003B7492 /* settings.png in Resources */ = {isa = PBXBuildFile; fileRef = A15EC05427C3D3FA003B7492 /* settings.png */; };
-		A15EC06427C3F32F003B7492 /* sort.png in Resources */ = {isa = PBXBuildFile; fileRef = A15EC06127C3F32D003B7492 /* sort.png */; };
-		A15EC06527C3F32F003B7492 /* sort (1).png in Resources */ = {isa = PBXBuildFile; fileRef = A15EC06227C3F32D003B7492 /* sort (1).png */; };
-		A15EC06627C3F32F003B7492 /* sort (2).png in Resources */ = {isa = PBXBuildFile; fileRef = A15EC06327C3F32E003B7492 /* sort (2).png */; };
 		A1923CDF279AFA03005FDDF4 /* AppointmentsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1923CDE279AFA03005FDDF4 /* AppointmentsController.swift */; };
 		A1923CE1279AFB7F005FDDF4 /* NewAppointmentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1923CE0279AFB7F005FDDF4 /* NewAppointmentController.swift */; };
 		A1992BAF27A1BC370011509E /* NewMedicationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1992BAE27A1BC360011509E /* NewMedicationViewController.swift */; };
 		A1992BB327AA2D740011509E /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1992BB227AA2D730011509E /* User.swift */; };
 		A1992BB527AA2DB50011509E /* Medication.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1992BB427AA2DB50011509E /* Medication.swift */; };
 		A1992BB727AA2DCE0011509E /* Appointment.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1992BB627AA2DCE0011509E /* Appointment.swift */; };
-		A1992BBB27AA2E1A0011509E /* NewMedicationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1992BBA27AA2E1A0011509E /* NewMedicationService.swift */; };
 		A1992BBD27AA2E510011509E /* NewAppointmentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1992BBC27AA2E510011509E /* NewAppointmentService.swift */; };
 		A1992BBF27AA2EB00011509E /* Appointments.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1992BBE27AA2EB00011509E /* Appointments.swift */; };
 		A1992BC127AA2F1C0011509E /* LoginService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1992BC027AA2F1C0011509E /* LoginService.swift */; };
@@ -60,12 +54,10 @@
 /* Begin PBXFileReference section */
 		540713608C5E50D0231DB1FF /* Pods-HealthDiary.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HealthDiary.debug.xcconfig"; path = "Target Support Files/Pods-HealthDiary/Pods-HealthDiary.debug.xcconfig"; sourceTree = "<group>"; };
 		5E543AD32CA8A6ABEA179755 /* Pods-HealthDiary.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HealthDiary.release.xcconfig"; path = "Target Support Files/Pods-HealthDiary/Pods-HealthDiary.release.xcconfig"; sourceTree = "<group>"; };
-		A14B9C5327CC13CD00607AA0 /* ExampleData.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = ExampleData.json; sourceTree = "<group>"; };
-		A14B9C5527CE965B00607AA0 /* UnknownCodingKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnknownCodingKey.swift; sourceTree = "<group>"; };
 		A14B9C5827CE9A1600607AA0 /* RequestFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestFactory.swift; sourceTree = "<group>"; };
 		A14B9C5A27CE9C2F00607AA0 /* RegistrationData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationData.swift; sourceTree = "<group>"; };
-		A14B9C5C27CE9D3800607AA0 /* FirebaseAutoID.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseAutoID.swift; sourceTree = "<group>"; };
 		A14B9C5E27D3F7BB00607AA0 /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
+		A14B9C6027D3FA8C00607AA0 /* DataStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStorage.swift; sourceTree = "<group>"; };
 		A14EB47A27961CC000A38849 /* HealthDiary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HealthDiary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A14EB47D27961CC000A38849 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A14EB47F27961CC000A38849 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -87,16 +79,12 @@
 		A15EC04227C3C952003B7492 /* archived.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = archived.jpeg; sourceTree = "<group>"; };
 		A15EC05027C3CE90003B7492 /* medications.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = medications.png; sourceTree = "<group>"; };
 		A15EC05427C3D3FA003B7492 /* settings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settings.png; sourceTree = "<group>"; };
-		A15EC06127C3F32D003B7492 /* sort.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sort.png; sourceTree = "<group>"; };
-		A15EC06227C3F32D003B7492 /* sort (1).png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sort (1).png"; sourceTree = "<group>"; };
-		A15EC06327C3F32E003B7492 /* sort (2).png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sort (2).png"; sourceTree = "<group>"; };
 		A1923CDE279AFA03005FDDF4 /* AppointmentsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppointmentsController.swift; sourceTree = "<group>"; };
 		A1923CE0279AFB7F005FDDF4 /* NewAppointmentController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewAppointmentController.swift; sourceTree = "<group>"; };
 		A1992BAE27A1BC360011509E /* NewMedicationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMedicationViewController.swift; sourceTree = "<group>"; };
 		A1992BB227AA2D730011509E /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		A1992BB427AA2DB50011509E /* Medication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Medication.swift; sourceTree = "<group>"; };
 		A1992BB627AA2DCE0011509E /* Appointment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Appointment.swift; sourceTree = "<group>"; };
-		A1992BBA27AA2E1A0011509E /* NewMedicationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMedicationService.swift; sourceTree = "<group>"; };
 		A1992BBC27AA2E510011509E /* NewAppointmentService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewAppointmentService.swift; sourceTree = "<group>"; };
 		A1992BBE27AA2EB00011509E /* Appointments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Appointments.swift; sourceTree = "<group>"; };
 		A1992BC027AA2F1C0011509E /* LoginService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginService.swift; sourceTree = "<group>"; };
@@ -209,7 +197,6 @@
 				A14EB4982796292F00A38849 /* Utilities.swift */,
 				A15EC06027C3E407003B7492 /* Photos */,
 				A14EB49B2797012200A38849 /* Constants.swift */,
-				A14B9C5527CE965B00607AA0 /* UnknownCodingKey.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -217,9 +204,6 @@
 		A15EC06027C3E407003B7492 /* Photos */ = {
 			isa = PBXGroup;
 			children = (
-				A15EC06227C3F32D003B7492 /* sort (1).png */,
-				A15EC06327C3F32E003B7492 /* sort (2).png */,
-				A15EC06127C3F32D003B7492 /* sort.png */,
 				A15EC01127C27763003B7492 /* clipboard.jpg */,
 				A15EC02E27C2A8E4003B7492 /* stethoscope.png */,
 				A15EC03127C3BF35003B7492 /* Appointments.jpeg */,
@@ -242,7 +226,6 @@
 				A1992BB427AA2DB50011509E /* Medication.swift */,
 				A1992BB627AA2DCE0011509E /* Appointment.swift */,
 				A14B9C5A27CE9C2F00607AA0 /* RegistrationData.swift */,
-				A14B9C5C27CE9D3800607AA0 /* FirebaseAutoID.swift */,
 				A14B9C5E27D3F7BB00607AA0 /* Errors.swift */,
 			);
 			path = Models;
@@ -251,13 +234,12 @@
 		A1992BB127A1F29E0011509E /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				A1992BBA27AA2E1A0011509E /* NewMedicationService.swift */,
 				A1992BBC27AA2E510011509E /* NewAppointmentService.swift */,
 				A1992BBE27AA2EB00011509E /* Appointments.swift */,
 				A1992BC027AA2F1C0011509E /* LoginService.swift */,
 				A1992BC227AA2F460011509E /* SignUpService.swift */,
 				A1992BC827B6E40E0011509E /* Medications.swift */,
-				A14B9C5327CC13CD00607AA0 /* ExampleData.json */,
+				A14B9C6027D3FA8C00607AA0 /* DataStorage.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -323,7 +305,6 @@
 			files = (
 				A15EC05527C3D3FB003B7492 /* settings.png in Resources */,
 				A15EC03827C3BF39003B7492 /* Appointments.jpeg in Resources */,
-				A15EC06627C3F32F003B7492 /* sort (2).png in Resources */,
 				A1992BD427C1470C0011509E /* cover.png in Resources */,
 				A15EC04327C3C952003B7492 /* archived.jpeg in Resources */,
 				A15EC02B27C27767003B7492 /* stethoscope.jpg in Resources */,
@@ -331,11 +312,8 @@
 				A15EC04127C3C16F003B7492 /* active.jpeg in Resources */,
 				A14EB48A27961CC900A38849 /* LaunchScreen.storyboard in Resources */,
 				A1992BF427C191310011509E /* logo.jpg in Resources */,
-				A15EC06527C3F32F003B7492 /* sort (1).png in Resources */,
 				A15EC02127C27767003B7492 /* clipboard.jpg in Resources */,
 				A14EB48727961CC900A38849 /* Assets.xcassets in Resources */,
-				A15EC06427C3F32F003B7492 /* sort.png in Resources */,
-				A14B9C5427CC13CD00607AA0 /* ExampleData.json in Resources */,
 				A15EC05327C3CE91003B7492 /* medications.png in Resources */,
 				A15EC02F27C2A8E4003B7492 /* stethoscope.png in Resources */,
 				A14EB48527961CC000A38849 /* Main.storyboard in Resources */,
@@ -397,8 +375,6 @@
 				A14B9C5F27D3F7BB00607AA0 /* Errors.swift in Sources */,
 				A1992BC327AA2F460011509E /* SignUpService.swift in Sources */,
 				A14EB47E27961CC000A38849 /* AppDelegate.swift in Sources */,
-				A14B9C5D27CE9D3800607AA0 /* FirebaseAutoID.swift in Sources */,
-				A14B9C5627CE965B00607AA0 /* UnknownCodingKey.swift in Sources */,
 				A1992BD227C03DF80011509E /* SettingsController.swift in Sources */,
 				A1923CE1279AFB7F005FDDF4 /* NewAppointmentController.swift in Sources */,
 				A1992BB527AA2DB50011509E /* Medication.swift in Sources */,
@@ -416,8 +392,8 @@
 				A1992BC727AAF8840011509E /* SelectedAppointmentController.swift in Sources */,
 				A1992BC927B6E40F0011509E /* Medications.swift in Sources */,
 				A1992BC127AA2F1C0011509E /* LoginService.swift in Sources */,
-				A1992BBB27AA2E1A0011509E /* NewMedicationService.swift in Sources */,
 				A1923CDF279AFA03005FDDF4 /* AppointmentsController.swift in Sources */,
+				A14B9C6127D3FA8C00607AA0 /* DataStorage.swift in Sources */,
 				A14EB49C2797012200A38849 /* Constants.swift in Sources */,
 				A1992BBF27AA2EB00011509E /* Appointments.swift in Sources */,
 			);

@@ -32,6 +32,7 @@ class SettingsController: UIViewController {
     @IBAction func onTapLogOut(_ sender: Any) {
         let alert : UIAlertController = UIAlertController( title: "Log out", message: "Do you really want to log out?", preferredStyle: UIAlertController.Style.alert)
         alert.addAction(UIAlertAction(title: "Yes", style: UIAlertAction.Style.default, handler: { (myAlert) in
+            DataStorage.shared.loggedUser = nil
             self.transitionToHome()
         }))
         alert.addAction(UIAlertAction(title: "No", style: UIAlertAction.Style.destructive, handler: nil ))

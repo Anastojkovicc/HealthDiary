@@ -8,15 +8,22 @@
 import Foundation
 
 struct Medication {
-    var name: String
-    var consumption: String
-    var archived: Bool
+    let id: String
+    let name: String
+    let consumption: String
+    var isArchived: Bool
+    var appointments: [Appointment]
     
-    mutating func Archived() {
-            archived = true
-        }
+    mutating func archived() {
+        isArchived = true
+    }
     
-    mutating func Active() {
-            archived = false
-        }
+    mutating func active() {
+        isArchived = false
+    }
+}
+
+struct NewMedication: Encodable {
+    let name: String
+    let consumption: String
 }
