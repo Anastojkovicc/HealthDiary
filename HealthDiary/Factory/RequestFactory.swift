@@ -13,12 +13,14 @@ class RequestFactory {
         case get = "GET"
         case post = "POST"
         case delete = "DELETE"
+        case put = "PUT"
     }
     
     static func makeRequest(method: HTTPMethod, path: String, queryItems: [URLQueryItem] = [], body: Data? = nil) -> URLRequest {
         var components = URLComponents()
         components.scheme = "http"
-        components.host = "bf91-87-116-190-81.ngrok.io"
+        components.host = "127.0.0.1"
+        components.port = 8080
         components.path = path
         if !queryItems.isEmpty {
             components.queryItems = queryItems

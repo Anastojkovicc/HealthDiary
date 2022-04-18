@@ -11,6 +11,8 @@ class ActiveMedicationsController: UIViewController, UITableViewDelegate, UITabl
     
     private var activeMedications: [Medication] = []
     var searchedMedication = [Medication]()
+    let service = MedicationsService()
+    
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var searchBar: UISearchBar!
@@ -20,11 +22,18 @@ class ActiveMedicationsController: UIViewController, UITableViewDelegate, UITabl
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let service = MedicationsService()
-//        activeMedications = service.getActiveMedications()
-        tableView.reloadData()
-        setNav()
-       
+        service.getActiveMedications(user: DataStorage.shared.loggedUser!){ result in
+            switch result {
+            case .success(let medications):
+                self.activeMedications = medications
+                self.tableView.reloadData()
+            case .failure(let loginError):
+                print(loginError.localizedDescription)
+            }
+        }
+        
+//        setNav()
+        
         tableView.dataSource = self
         tableView.delegate = self
         
@@ -55,9 +64,17 @@ class ActiveMedicationsController: UIViewController, UITableViewDelegate, UITabl
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        setNav()
-        let service = MedicationsService()
-//        activeMedications = service.getActiveMedications()
+//        setNav()
+        
+        service.getActiveMedications(user: DataStorage.shared.loggedUser!){ result in
+            switch result {
+            case .success(let medications):
+                self.activeMedications = medications
+            case .failure(let loginError):
+                print(loginError.localizedDescription)
+            }
+        }
+        
         if searching {
             searching = false
             searchBar.text = ""
@@ -99,7 +116,7 @@ class ActiveMedicationsController: UIViewController, UITableViewDelegate, UITabl
         cell.detailTextLabel?.lineBreakMode = .byWordWrapping
         cell.detailTextLabel?.font =  UIFont.systemFont(ofSize: 16)
         
-        cell.imageView!.tintColor = UIColor.init(red: 51/255, green: 203/255, blue: 203/255, alpha: 1) 
+        cell.imageView!.tintColor = UIColor.init(red: 51/255, green: 203/255, blue: 203/255, alpha: 1)
         return cell
     }
     
@@ -112,8 +129,9 @@ class ActiveMedicationsController: UIViewController, UITableViewDelegate, UITabl
             if searching {
                 destination.medication = searchedMedication[(tableView.indexPathForSelectedRow?.row)!]
             } else {
-            destination.medication = activeMedications[(tableView.indexPathForSelectedRow?.row)!]
+                destination.medication = activeMedications[(tableView.indexPathForSelectedRow?.row)!]
             }
         }
     }
 }
+

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="e6Y-nq-f6h">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="e6Y-nq-f6h">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -170,6 +171,9 @@
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
+                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="tUH-7K-nxQ">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </toolbar>
                     <connections>
                         <segue destination="X9o-Zs-P1U" kind="relationship" relationship="rootViewController" id="J7G-aC-epG"/>
                     </connections>
@@ -339,11 +343,8 @@
                                 </connections>
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleAspectFill" alwaysBounceVertical="YES" dataMode="prototypes" style="insetGrouped" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="17" sectionFooterHeight="18" springLoaded="YES" translatesAutoresizingMaskIntoConstraints="NO" id="w0a-lb-udR">
-                                <rect key="frame" x="0.0" y="206" width="414" height="630"/>
+                                <rect key="frame" x="0.0" y="206" width="414" height="607"/>
                                 <color key="backgroundColor" systemColor="systemGray5Color"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="630" id="6mz-8F-YCO"/>
-                                </constraints>
                                 <color key="separatorColor" red="0.075914807619999997" green="0.6403096318" blue="0.57646822929999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleAspectFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="MyCell" textLabel="Mtb-Ty-Xdb" detailTextLabel="BR3-tU-7d4" imageView="op5-HT-2Go" style="IBUITableViewCellStyleSubtitle" id="y4c-BK-nFu">
@@ -377,45 +378,46 @@
                                 </prototypes>
                                 <sections/>
                             </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="bottom" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bTC-9d-Z6q">
-                                <rect key="frame" x="19" y="195" width="193" height="40"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="EuA-zQ-mqD"/>
-                                </constraints>
-                                <state key="normal" title="Sort by name"/>
-                                <connections>
-                                    <action selector="onTapSortName:" destination="X9o-Zs-P1U" eventType="touchUpInside" id="iHa-bZ-kYb"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="bottom" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yP6-4A-N8z">
-                                <rect key="frame" x="212" y="195" width="181" height="40"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="CMQ-U4-DCm"/>
-                                    <constraint firstAttribute="width" constant="181" id="GKq-kB-Fot"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <state key="normal" title="Sort by date"/>
-                                <connections>
-                                    <action selector="onTapSortDate:" destination="X9o-Zs-P1U" eventType="touchUpInside" id="zkI-zY-bau"/>
-                                </connections>
-                            </button>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="PAy-dU-SCj">
+                                <rect key="frame" x="19" y="206" width="376" height="40"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="bottom" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bTC-9d-Z6q">
+                                        <rect key="frame" x="0.0" y="0.0" width="188" height="40"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="40" id="EuA-zQ-mqD"/>
+                                        </constraints>
+                                        <state key="normal" title="Sort by name"/>
+                                        <connections>
+                                            <action selector="onTapSortName:" destination="X9o-Zs-P1U" eventType="touchUpInside" id="iHa-bZ-kYb"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="bottom" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yP6-4A-N8z">
+                                        <rect key="frame" x="188" y="0.0" width="188" height="40"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="40" id="CMQ-U4-DCm"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <state key="normal" title="Sort by date"/>
+                                        <connections>
+                                            <action selector="onTapSortDate:" destination="X9o-Zs-P1U" eventType="touchUpInside" id="zkI-zY-bau"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="RlN-OG-vWO"/>
-                        <color key="backgroundColor" systemColor="systemGray5Color"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="w0a-lb-udR" firstAttribute="leading" secondItem="Dt8-Ca-IJK" secondAttribute="leading" id="6D6-tL-Ing"/>
-                            <constraint firstItem="yP6-4A-N8z" firstAttribute="leading" secondItem="bTC-9d-Z6q" secondAttribute="trailing" id="HKF-aj-CUC"/>
+                            <constraint firstItem="PAy-dU-SCj" firstAttribute="leading" secondItem="RlN-OG-vWO" secondAttribute="leading" constant="19" id="1Rq-3M-n4l"/>
+                            <constraint firstItem="RlN-OG-vWO" firstAttribute="trailing" secondItem="PAy-dU-SCj" secondAttribute="trailing" constant="19" id="G2Q-79-vxj"/>
+                            <constraint firstItem="w0a-lb-udR" firstAttribute="top" secondItem="gnx-mT-iYG" secondAttribute="bottom" constant="28" id="Jcs-Yh-XSY"/>
                             <constraint firstItem="w0a-lb-udR" firstAttribute="leading" secondItem="Dt8-Ca-IJK" secondAttribute="leading" id="MTe-ob-hOM"/>
+                            <constraint firstItem="PAy-dU-SCj" firstAttribute="bottom" secondItem="w0a-lb-udR" secondAttribute="top" constant="40" id="UbJ-OG-KVg"/>
                             <constraint firstItem="gnx-mT-iYG" firstAttribute="leading" secondItem="Dt8-Ca-IJK" secondAttribute="leadingMargin" constant="30" id="ZeH-Of-eHq"/>
-                            <constraint firstItem="bTC-9d-Z6q" firstAttribute="leading" secondItem="Dt8-Ca-IJK" secondAttribute="leading" constant="19" id="dPS-hp-pXr"/>
-                            <constraint firstItem="yP6-4A-N8z" firstAttribute="trailing" secondItem="w0a-lb-udR" secondAttribute="trailing" constant="-21" id="dbt-Zq-YAk"/>
                             <constraint firstAttribute="trailingMargin" secondItem="gnx-mT-iYG" secondAttribute="trailing" constant="30" id="env-4L-0x8"/>
-                            <constraint firstAttribute="bottom" secondItem="w0a-lb-udR" secondAttribute="bottom" constant="60" id="fLJ-9A-ZJz"/>
+                            <constraint firstAttribute="bottomMargin" secondItem="w0a-lb-udR" secondAttribute="bottom" id="fLJ-9A-ZJz"/>
                             <constraint firstAttribute="trailing" secondItem="w0a-lb-udR" secondAttribute="trailing" id="o62-Ws-XCe"/>
-                            <constraint firstItem="w0a-lb-udR" firstAttribute="top" secondItem="bTC-9d-Z6q" secondAttribute="bottom" constant="-29" id="v5v-Ii-EiK"/>
                             <constraint firstItem="gnx-mT-iYG" firstAttribute="top" secondItem="Dt8-Ca-IJK" secondAttribute="topMargin" constant="40" id="w3S-pQ-Loh"/>
-                            <constraint firstItem="w0a-lb-udR" firstAttribute="trailing" secondItem="RlN-OG-vWO" secondAttribute="trailing" id="yOm-Mh-rr5"/>
-                            <constraint firstItem="yP6-4A-N8z" firstAttribute="baseline" secondItem="bTC-9d-Z6q" secondAttribute="baseline" id="zL7-8R-uXI"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title=" APPOINTMENTS" id="GCw-r6-pKJ">
@@ -720,7 +722,7 @@
                             </searchBar>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vNx-da-3qE"/>
-                        <color key="backgroundColor" systemColor="systemGray5Color"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="FHZ-Om-3cL" secondAttribute="trailing" id="LC8-SZ-S6M"/>
                             <constraint firstItem="FHZ-Om-3cL" firstAttribute="leading" secondItem="cB7-ju-aDf" secondAttribute="leading" id="ZiY-pV-0re"/>
@@ -755,14 +757,16 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="neW-jq-c6U"/>
                                 </constraints>
-                                <state key="normal" title="Log Out"/>
+                                <state key="normal" title="Log Out">
+                                    <color key="titleColor" red="0.29388347269999998" green="0.7768675089" blue="0.74902278180000004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                </state>
                                 <connections>
                                     <action selector="onTapLogOut:" destination="CYA-q7-Euu" eventType="touchUpInside" id="H25-ev-Dxy"/>
                                 </connections>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="izR-Me-qC1"/>
-                        <color key="backgroundColor" systemColor="systemGray5Color"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="sC5-qD-oV8" firstAttribute="centerY" secondItem="1Ag-s2-sLW" secondAttribute="centerY" id="QFJ-0z-M3A"/>
                             <constraint firstAttribute="trailingMargin" secondItem="sC5-qD-oV8" secondAttribute="trailing" constant="20" id="WFs-pA-J5T"/>
@@ -1125,7 +1129,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="GiY-6F-RXg"/>
+        <segue reference="RSv-18-aOP"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.075914807619999997" green="0.6403096318" blue="0.57646822929999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
     <resources>
@@ -1139,7 +1143,7 @@
         <image name="list.bullet.rectangle" catalog="system" width="128" height="93"/>
         <image name="logo.jpg" width="277.5" height="41.25"/>
         <image name="medications.png" width="384" height="384"/>
-        <image name="pills" catalog="system" width="128" height="104"/>
+        <image name="pills" catalog="system" width="128" height="106"/>
         <image name="plus" catalog="system" width="128" height="113"/>
         <image name="sort (1).png" width="409.60000610351562" height="409.60000610351562"/>
         <namedColor name="AccentColor">

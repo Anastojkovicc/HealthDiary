@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct User: Decodable {
+struct User: Codable {
     let id: String
     let firstName: String
     let lastName: String
@@ -15,12 +15,16 @@ struct User: Decodable {
     let password: String
     let appointments: [String]?
     
-    init(id: String, firstName: String, lastName: String, email: String, password: String, appointments: [String]?) {
-        self.id = id
-        self.firstName = firstName
-        self.lastName = lastName
-        self.email = email
-        self.password = password
-        self.appointments = appointments
+    static func loadFromDisk() -> User? {
+        guard let userData = UserDefaults.standard.data(forKey: "loggedInUser") else {
+            return nil
+        }
+        let user = try? JSONDecoder().decode(User.self, from: userData)
+        return user
+    }
+    
+   func saveToDisk(){
+        guard let data = try? JSONEncoder().encode(self) else { return }
+        UserDefaults.standard.set(data, forKey: "loggedInUser")
     }
 }

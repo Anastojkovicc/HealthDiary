@@ -15,6 +15,7 @@ class SelectedMedicationController: UIViewController {
     @IBOutlet weak var editButton: UIBarButtonItem!
     @IBOutlet weak var saveChangesButton: UIButton!
     @IBOutlet weak var errorLabel: UILabel!
+    let service = MedicationsService()
     
     var editMode: Bool = false
     
@@ -91,13 +92,32 @@ class SelectedMedicationController: UIViewController {
             title = "Archive"
         }
         let alert : UIAlertController = UIAlertController( title: title, message: "Do you really want to edit this medication?", preferredStyle: UIAlertController.Style.alert)
-        alert.addAction(UIAlertAction(title: "Yes", style: UIAlertAction.Style.default, handler: { (myAlert) in
-            
+        alert.addAction(UIAlertAction(title: "Yes", style: UIAlertAction.Style.default, handler: { [self] (myAlert) in
+            if self.medication.isArchived {
+                self.service.setActive(medication: medication){ result in
+                    switch result {
+                    case .success():
+                        self.navigationController?.popViewController(animated: true)
+                    case .failure(let error):
+                        print(error.localizedDescription)
+                    }
+                }
+            } else {
+                self.service.setArchived(medication: medication){ result in
+                    switch result {
+                    case .success():
+                        self.navigationController?.popViewController(animated: true)
+                    case .failure(let error):
+                        print(error.localizedDescription)
+                    }
+                }
+            }
         }))
         
         alert.addAction(UIAlertAction(title: "No", style: UIAlertAction.Style.destructive, handler: nil ))
         self.present(alert, animated: true, completion: nil)
     }
+    
     @IBAction func onTapEdit(_ sender: Any) {
         if editMode == false {
             editMode = true

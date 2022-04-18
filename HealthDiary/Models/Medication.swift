@@ -7,12 +7,12 @@
 
 import Foundation
 
-struct Medication {
+struct Medication: Decodable {
     let id: String
     let name: String
     let consumption: String
     var isArchived: Bool
-    var appointments: [Appointment]
+//    var appointments: [Appointment]
     
     mutating func archived() {
         isArchived = true
@@ -21,6 +21,13 @@ struct Medication {
     mutating func active() {
         isArchived = false
     }
+}
+
+struct MedicationDTO: Decodable {
+    let id: String
+    let name: String
+    let consumption: String
+    let isArchived: Bool
 }
 
 struct NewMedication: Encodable {

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Appointment {
+struct Appointment: Decodable {
     let id: String
     let type: String
     let note: String
@@ -15,7 +15,7 @@ struct Appointment {
     var medications : [Medication]
 }
 
-struct AppointmentDTO: Decodable {
+struct AppointmentShort: Decodable {
     let id: String
     let type: String
     let note: String

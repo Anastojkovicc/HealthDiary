@@ -18,13 +18,12 @@ class SelectedAppointmentController: UIViewController, UITableViewDelegate, UITa
     @IBOutlet weak var deleteAppointmentButton: UIButton!
     @IBOutlet weak var errorLabel: UILabel!
     
-    var appointment: Appointment!
+    var appointmentShort: AppointmentShort!
+    var appointment: Appointment?
     var editMode: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        specialityTextField.text = appointment?.type
-        noteTextView.text = appointment?.note
         
         tableView.dataSource = self
         tableView.delegate = self
@@ -46,7 +45,19 @@ class SelectedAppointmentController: UIViewController, UITableViewDelegate, UITa
         dateTextField.inputView = datePicker
         dateTextField.text = formatDate(date: appointment?.date ?? Date())
         
-        
+        let service = AppointmentsService()
+        service.getAppointment(user: DataStorage.shared.loggedUser!, appointment: appointmentShort) { result in
+            switch result {
+            case .success(let app):
+                self.appointment = app
+                self.setMedicationTable()
+                self.tableView.reloadData()
+                self.specialityTextField.text = self.appointment?.type
+                self.noteTextView.text = self.appointment?.note
+            case .failure(let appError):
+                print(appError.localizedDescription)
+            }
+        }
     }
     
     func closeDatePicker() {
@@ -65,18 +76,6 @@ class SelectedAppointmentController: UIViewController, UITableViewDelegate, UITa
         } else {
             setEditMode()
         }
-        
-        let service = AppointmentsService()
-        service.getAppointment(appointment: appointment) { result in
-            switch result {
-            case .success(let app):
-                self.appointment = app
-            case .failure(let appError):
-                print(appError.localizedDescription)
-            }
-        }
-        
-        tableView.reloadData()
     }
     
     func setUpElements(){
@@ -96,17 +95,6 @@ class SelectedAppointmentController: UIViewController, UITableViewDelegate, UITa
         editAppointmentButton.tintColor = UIColor.init(red: 51/255, green: 203/255, blue: 203/255, alpha: 1)
         
         errorLabel.alpha = 0
-        
-        if appointment.medications.isEmpty {
-            medicationListLabel.alpha = 0
-        } else {
-            medicationListLabel.alpha = 1
-            medicationListLabel.font = UIFont.systemFont(ofSize: 18)
-            tableView.reloadData()
-            tableView.layer.borderWidth = 2
-            tableView.layer.borderColor = UIColor.black.cgColor
-            tableView.layer.cornerRadius = 5.0
-        }
     }
     
     func setEditMode(){
@@ -122,6 +110,11 @@ class SelectedAppointmentController: UIViewController, UITableViewDelegate, UITa
         deleteAppointmentButton.setTitle("Save changes", for: UIControl.State.normal)
         editAppointmentButton.title = "Close"
         editAppointmentButton.tintColor = UIColor.black
+        
+    }
+    
+    func setMedicationTable(){
+        guard let appointment = appointment else { return }
         
         if appointment.medications.isEmpty {
             medicationListLabel.alpha = 0
@@ -167,7 +160,7 @@ class SelectedAppointmentController: UIViewController, UITableViewDelegate, UITa
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return appointment!.medications.count
+        return appointment?.medications.count ?? 0
     }
     
     @IBAction func onTapDelete(_ sender: Any) {
@@ -188,7 +181,7 @@ class SelectedAppointmentController: UIViewController, UITableViewDelegate, UITa
             alert.addAction(UIAlertAction(title: "Yes", style: UIAlertAction.Style.default, handler: { (myAlert) in
                 
                 let service = AppointmentsService()
-                service.deleteAppointment(appointment: self.appointment) { result in
+                service.deleteAppointment(appointment: self.appointmentShort!) { result in
                     switch result {
                     case .success(let saved):
                         if saved { print("Deleted")
@@ -212,7 +205,7 @@ class SelectedAppointmentController: UIViewController, UITableViewDelegate, UITa
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let destination = segue.destination as? SelectedMedicationController {
-            destination.medication = appointment.medications[(tableView.indexPathForSelectedRow?.row)!]
+            destination.medication = appointment!.medications[(tableView.indexPathForSelectedRow?.row)!]
         }
     }
     

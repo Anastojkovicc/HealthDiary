@@ -11,6 +11,7 @@ class ArchivedMedicationsController: UIViewController, UITableViewDelegate, UITa
     
     private var archivedMedications: [Medication] = []
     var searchedMedication = [Medication]()
+    let service = MedicationsService()
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var searchBar: UISearchBar!
@@ -20,11 +21,15 @@ class ArchivedMedicationsController: UIViewController, UITableViewDelegate, UITa
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setNav()
-        
-        let service = MedicationsService()
-        archivedMedications = []
-//            service.getArchivedMedications()
+//        setNav()
+        service.getArchivedMedications(user: DataStorage.shared.loggedUser!){ result in
+            switch result {
+            case .success(let medications):
+                self.archivedMedications = medications
+            case .failure(let loginError):
+                print(loginError.localizedDescription)
+            }
+        }
         tableView.reloadData()
         tableView.dataSource = self
         tableView.delegate = self
@@ -44,10 +49,15 @@ class ArchivedMedicationsController: UIViewController, UITableViewDelegate, UITa
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        setNav()
-        let service = MedicationsService()
-        archivedMedications = []
-//            service.getArchivedMedications()
+//        setNav()
+        service.getArchivedMedications(user: DataStorage.shared.loggedUser!){ result in
+            switch result {
+            case .success(let medications):
+                self.archivedMedications = medications
+            case .failure(let loginError):
+                print(loginError.localizedDescription)
+            }
+        }
         tableView.reloadData()
         if searching {
             searching = false
@@ -57,9 +67,8 @@ class ArchivedMedicationsController: UIViewController, UITableViewDelegate, UITa
     }
     
     func setNav(){
-        navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.init(red: 51/255, green: 203/255, blue: 203/255, alpha: 1) ]
+        navigationController?.navigationBar.titleTextAttributes = [.foregroundColor:UIColor.init(red: 51/255, green: 203/255, blue: 203/255, alpha: 1) ]
         self.tabBarController?.tabBar.tintColor = UIColor.init(red: 51/255, green: 203/255, blue: 203/255, alpha: 1)
-        
         self.navigationController?.navigationBar.tintColor =  UIColor.init(red: 51/255, green: 203/255, blue: 203/255, alpha: 1)
         self.navigationController?.navigationBar.backItem?.backBarButtonItem?.tintColor = UIColor.init(red: 51/255, green: 203/255, blue: 203/255, alpha: 1)
     }
@@ -120,6 +129,6 @@ class ArchivedMedicationsController: UIViewController, UITableViewDelegate, UITa
                 destination.medication = archivedMedications[(tableView.indexPathForSelectedRow?.row)!]
             }
         }
-        }
-        
     }
+    
+}

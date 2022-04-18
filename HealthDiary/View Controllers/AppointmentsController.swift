@@ -16,7 +16,7 @@ class AppointmentsController: UIViewController, UITableViewDelegate, UITableView
     @IBOutlet weak var sortByName: UIButton!
     @IBOutlet weak var sortByDate: UIButton!
     
-    var usersAppointments: [Appointment] = []
+    var usersAppointments: [AppointmentShort] = []
     let service = AppointmentsService()
     
     var sortDate : Bool = true
@@ -24,18 +24,19 @@ class AppointmentsController: UIViewController, UITableViewDelegate, UITableView
     
     override func viewDidLoad() {
         super.viewDidLoad()
+//        setNav()
         getList()
         tableView.dataSource = self
         tableView.delegate = self
         setUpElements()
-        setNav()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         getList()
         tableView.reloadData()
-        setNav()
+//        setNav()
         setUpElements()
         
     }
@@ -53,7 +54,7 @@ class AppointmentsController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func setNav(){
-        navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.init(red: 51/255, green: 203/255, blue: 203/255, alpha: 1) ]
+        navigationController?.navigationBar.titleTextAttributes = [.foregroundColor:UIColor.init(red: 51/255, green: 203/255, blue: 203/255, alpha: 1) ]
         self.tabBarController?.tabBar.tintColor = UIColor.init(red: 51/255, green: 203/255, blue: 203/255, alpha: 1)
         self.navigationController?.navigationBar.tintColor =  UIColor.init(red: 51/255, green: 203/255, blue: 203/255, alpha: 1)
         self.navigationController?.navigationBar.backItem?.backBarButtonItem?.tintColor = UIColor.init(red: 51/255, green: 203/255, blue: 203/255, alpha: 1)
@@ -109,7 +110,7 @@ class AppointmentsController: UIViewController, UITableViewDelegate, UITableView
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let destination = segue.destination as? SelectedAppointmentController {
-            destination.appointment = usersAppointments[(tableView.indexPathForSelectedRow?.row)!]
+            destination.appointmentShort = usersAppointments[(tableView.indexPathForSelectedRow?.row)!]
         }
     }
     
