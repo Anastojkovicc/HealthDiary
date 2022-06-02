@@ -20,16 +20,8 @@ class ArchivedMedicationsController: UIViewController, UITableViewDelegate, UITa
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
         
-//        setNav()
-        service.getArchivedMedications(user: DataStorage.shared.loggedUser!){ result in
-            switch result {
-            case .success(let medications):
-                self.archivedMedications = medications
-            case .failure(let loginError):
-                print(loginError.localizedDescription)
-            }
-        }
         tableView.reloadData()
         tableView.dataSource = self
         tableView.delegate = self
@@ -45,20 +37,25 @@ class ArchivedMedicationsController: UIViewController, UITableViewDelegate, UITa
         let glassIconView = searchTextField.leftView as! UIImageView
         glassIconView.image = glassIconView.image?.withRenderingMode(.alwaysTemplate)
         glassIconView.tintColor = UIColor.init(red: 51/255, green: 203/255, blue: 203/255, alpha: 1)
+        
+        getList()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-//        setNav()
-        service.getArchivedMedications(user: DataStorage.shared.loggedUser!){ result in
+    func getList() {
+        self.service.getArchivedMedications(user: DataStorage.shared.loggedUser!){ result in
             switch result {
             case .success(let medications):
                 self.archivedMedications = medications
+                self.tableView.reloadData()
             case .failure(let loginError):
                 print(loginError.localizedDescription)
             }
         }
-        tableView.reloadData()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        getList()
         if searching {
             searching = false
             searchBar.text = ""

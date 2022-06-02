@@ -21,6 +21,7 @@ class SelectedAppointmentController: UIViewController, UITableViewDelegate, UITa
     var appointmentShort: AppointmentShort!
     var appointment: Appointment?
     var editMode: Bool = false
+    let service = AppointmentsService()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,19 +46,8 @@ class SelectedAppointmentController: UIViewController, UITableViewDelegate, UITa
         dateTextField.inputView = datePicker
         dateTextField.text = formatDate(date: appointment?.date ?? Date())
         
-        let service = AppointmentsService()
-        service.getAppointment(user: DataStorage.shared.loggedUser!, appointment: appointmentShort) { result in
-            switch result {
-            case .success(let app):
-                self.appointment = app
-                self.setMedicationTable()
-                self.tableView.reloadData()
-                self.specialityTextField.text = self.appointment?.type
-                self.noteTextView.text = self.appointment?.note
-            case .failure(let appError):
-                print(appError.localizedDescription)
-            }
-        }
+       
+       
     }
     
     func closeDatePicker() {
@@ -75,6 +65,19 @@ class SelectedAppointmentController: UIViewController, UITableViewDelegate, UITa
             setUpElements()
         } else {
             setEditMode()
+        }
+        
+        service.getAppointment(user: DataStorage.shared.loggedUser!, appointment: appointmentShort) { result in
+            switch result {
+            case .success(let app):
+                self.appointment = app
+                self.setMedicationTable()
+                self.tableView.reloadData()
+                self.specialityTextField.text = self.appointment?.type
+                self.noteTextView.text = self.appointment?.note
+            case .failure(let appError):
+                print(appError.localizedDescription)
+            }
         }
     }
     
@@ -171,6 +174,16 @@ class SelectedAppointmentController: UIViewController, UITableViewDelegate, UITa
                 let dateFormatter = DateFormatter()
                 dateFormatter.dateFormat = "dd.MM.yyyy."
                 let date: Date = dateFormatter.date(from: self.dateTextField.text!.trimmingCharacters( in: .whitespacesAndNewlines))!
+                let updatedAppointment = Appointment(id: self.appointment!.id , type: self.specialityTextField.text ?? "", note: self.noteTextView.text, date: date, medications: self.appointment!.medications )
+                self.service.updateAppointment(updatedAppointment){ result in
+                    switch result {
+                    case .success:
+                        self.navigationController?.popViewController(animated: true)
+                    case .failure(let deleteError):
+                        print(deleteError.localizedDescription)
+                    }
+                    
+                }
             }))
             
             alert.addAction(UIAlertAction(title: "No", style: UIAlertAction.Style.destructive, handler: nil ))
@@ -179,15 +192,11 @@ class SelectedAppointmentController: UIViewController, UITableViewDelegate, UITa
         } else {
             let alert : UIAlertController = UIAlertController( title: "Delete", message: "Do you really want to delete this appointment?", preferredStyle: UIAlertController.Style.alert)
             alert.addAction(UIAlertAction(title: "Yes", style: UIAlertAction.Style.default, handler: { (myAlert) in
-                
-                let service = AppointmentsService()
-                service.deleteAppointment(appointment: self.appointmentShort!) { result in
+            
+                self.service.deleteAppointment(appointment: self.appointmentShort!) { result in
                     switch result {
-                    case .success(let saved):
-                        if saved { print("Deleted")
-                            self.navigationController?.popViewController(animated: true)
-                        }
-                        else { print("Deleting error")}
+                    case .success:
+                        self.navigationController?.popViewController(animated: true)
                     case .failure(let deleteError):
                         print(deleteError.localizedDescription)
                     }

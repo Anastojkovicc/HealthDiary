@@ -136,7 +136,7 @@ class SelectedMedicationController: UIViewController {
     @IBAction func onTapSave(_ sender: Any) {
         let alert : UIAlertController = UIAlertController( title: "Save", message: "Do you really want to save changes?", preferredStyle: UIAlertController.Style.alert)
         alert.addAction(UIAlertAction(title: "Yes", style: UIAlertAction.Style.default, handler: { (myAlert) in
-            
+            //TODO: SKLONITI OPCIJU IZMENE
         }))
         
         alert.addAction(UIAlertAction(title: "No", style: UIAlertAction.Style.destructive, handler: nil ))

@@ -22,17 +22,7 @@ class ActiveMedicationsController: UIViewController, UITableViewDelegate, UITabl
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        service.getActiveMedications(user: DataStorage.shared.loggedUser!){ result in
-            switch result {
-            case .success(let medications):
-                self.activeMedications = medications
-                self.tableView.reloadData()
-            case .failure(let loginError):
-                print(loginError.localizedDescription)
-            }
-        }
-        
-//        setNav()
+        getList()
         
         tableView.dataSource = self
         tableView.delegate = self
@@ -62,18 +52,22 @@ class ActiveMedicationsController: UIViewController, UITableViewDelegate, UITabl
         tableView.reloadData()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-//        setNav()
-        
+    func getList(){
         service.getActiveMedications(user: DataStorage.shared.loggedUser!){ result in
             switch result {
             case .success(let medications):
                 self.activeMedications = medications
+                self.tableView.reloadData()
             case .failure(let loginError):
                 print(loginError.localizedDescription)
             }
         }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        getList()
         
         if searching {
             searching = false

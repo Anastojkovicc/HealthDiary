@@ -44,7 +44,23 @@ class AppointmentsService {
             })
     }
     
-    func deleteAppointment(appointment: AppointmentShort, completion: @escaping(Result<Bool, AppointmentsError>) -> Void ){
+    func deleteAppointment(appointment: AppointmentShort, completion: @escaping(Result<Void, AppointmentsError>) -> Void ){
+        let request = RequestFactory.makeRequest(method: .delete,
+                                                 path: "/appointments/\(appointment.id)")
+        
+        AF.request(request).responseData(completionHandler: { response in
+            switch response.result {
+            case .success:
+                completion(.success(()))
+            case .failure(let error):
+                debugPrint(error)
+                completion(.failure(.invalidParametars))
+            }
+        }).cURLDescription(calling: { description in
+            print(description)
+        })
+
+                                                 
     }
     
     //TODO: pass appointment and user Id instead of whole objects
@@ -78,7 +94,31 @@ class AppointmentsService {
                 })
     }
     
-    func changeAppointment(old:Appointment , new: Appointment, completion: @escaping(Result<Bool, AppointmentsError>) -> Void){
+    func updateAppointment(_ appointment: Appointment, completion: @escaping(Result<Void, AppointmentsError>) -> Void){
+        let medications = appointment.medications.map({ med in
+            return NewMedication(name: med.name, consumption: med.consumption)
+        })
+        let savingAppointment = NewAppointmentData.init(type: appointment.type, date: appointment.date, note: appointment.note, userId: DataStorage.shared.loggedUser!.id , medications: medications)
+            
+            let encoder = JSONEncoder()
+            encoder.dateEncodingStrategy = .iso8601
+            let appointmentBody = try! encoder.encode(savingAppointment)
+        let request = RequestFactory.makeRequest(method: .put,
+                                                 path: "/appointments/\(appointment.id)",
+                                                body: appointmentBody)
+            AF.request(request)
+                .responseData(completionHandler: { response in
+                    switch response.result {
+                    case .success:
+                        completion(.success(()))
+                        
+                    case .failure:
+                        completion(.failure(.invalidParametars))
+                    }
+                    
+                }).cURLDescription(calling: { description in
+                    print(description)
+                })
         
     }
 }

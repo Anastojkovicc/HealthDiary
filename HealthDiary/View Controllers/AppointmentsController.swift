@@ -29,7 +29,7 @@ class AppointmentsController: UIViewController, UITableViewDelegate, UITableView
         tableView.dataSource = self
         tableView.delegate = self
         setUpElements()
-        
+        getList()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -38,6 +38,7 @@ class AppointmentsController: UIViewController, UITableViewDelegate, UITableView
         tableView.reloadData()
 //        setNav()
         setUpElements()
+        getList()
         
     }
     
@@ -46,11 +47,12 @@ class AppointmentsController: UIViewController, UITableViewDelegate, UITableView
             switch result {
             case .success(let appointments):
                 self.usersAppointments = appointments
+                self.tableView.reloadData()
             case .failure(let loginError):
                 print(loginError.localizedDescription)
             }
-            
         }
+        
     }
     
     func setNav(){

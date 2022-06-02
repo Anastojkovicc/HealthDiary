@@ -20,28 +20,28 @@ class MedicationsService {
                                                  queryItems: [
                                                     URLQueryItem(name: "userId", value: "\(user.id)")
                                                  ])
-                                                 
-            AF.request(request).responseData(completionHandler: { response in
-                switch response.result {
-                case .success(let data):
-                    do {
-                        let medicationList = try JSONDecoder().decode([MedicationDTO].self, from: data)
-                        var medications : [Medication] = []
-                        for medication in medicationList{
-                            let newMedication = Medication.init(id: medication.id, name: medication.name, consumption: medication.consumption, isArchived: medication.isArchived)
-                            medications.append(newMedication)
-                        }
-                        completion(.success(medications))
-                    } catch {
-                        completion(.failure(.invalidParametars))
+        
+        AF.request(request).responseData(completionHandler: { response in
+            switch response.result {
+            case .success(let data):
+                do {
+                    let medicationList = try JSONDecoder().decode([MedicationDTO].self, from: data)
+                    var medications : [Medication] = []
+                    for medication in medicationList{
+                        let newMedication = Medication.init(id: medication.id, name: medication.name, consumption: medication.consumption, isArchived: medication.isArchived)
+                        medications.append(newMedication)
                     }
-                case .failure(let error):
-                    debugPrint(error)
+                    completion(.success(medications))
+                } catch {
                     completion(.failure(.invalidParametars))
                 }
-            }).cURLDescription(calling: { description in
-                print(description)
-            })
+            case .failure(let error):
+                debugPrint(error)
+                completion(.failure(.invalidParametars))
+            }
+        }).cURLDescription(calling: { description in
+            print(description)
+        })
         
     }
     
@@ -52,28 +52,28 @@ class MedicationsService {
                                                     URLQueryItem(name: "userId", value: "\(user.id)"),
                                                     URLQueryItem(name: "isArchived", value: "false")
                                                  ])
-                                                 
-            AF.request(request).responseData(completionHandler: { response in
-                switch response.result {
-                case .success(let data):
-                    do {
-                        let medicationList = try JSONDecoder().decode([MedicationDTO].self, from: data)
-                        var medications : [Medication] = []
-                        for medication in medicationList{
-                            let newMedication = Medication.init(id: medication.id, name: medication.name, consumption: medication.consumption, isArchived: medication.isArchived)
-                            medications.append(newMedication)
-                        }
-                        completion(.success(medications))
-                    } catch {
-                        completion(.failure(.invalidParametars))
+        
+        AF.request(request).responseData(completionHandler: { response in
+            switch response.result {
+            case .success(let data):
+                do {
+                    let medicationList = try JSONDecoder().decode([MedicationDTO].self, from: data)
+                    var medications : [Medication] = []
+                    for medication in medicationList{
+                        let newMedication = Medication.init(id: medication.id, name: medication.name, consumption: medication.consumption, isArchived: medication.isArchived)
+                        medications.append(newMedication)
                     }
-                case .failure(let error):
-                    debugPrint(error)
+                    completion(.success(medications))
+                } catch {
                     completion(.failure(.invalidParametars))
                 }
-            }).cURLDescription(calling: { description in
-                print(description)
-            })
+            case .failure(let error):
+                debugPrint(error)
+                completion(.failure(.invalidParametars))
+            }
+        }).cURLDescription(calling: { description in
+            print(description)
+        })
     }
     
     func getArchivedMedications(user: User, completion: @escaping(Result<[Medication], AppointmentsError>) -> Void){
@@ -83,71 +83,77 @@ class MedicationsService {
                                                     URLQueryItem(name: "userId", value: "\(user.id)"),
                                                     URLQueryItem(name: "isArchived", value: "true")
                                                  ])
-                                                 
-            AF.request(request).responseData(completionHandler: { response in
-                switch response.result {
-                case .success(let data):
-                    do {
-                        let medicationList = try JSONDecoder().decode([MedicationDTO].self, from: data)
-                        var medications : [Medication] = []
-                        for medication in medicationList{
-                            let newMedication = Medication.init(id: medication.id, name: medication.name, consumption: medication.consumption, isArchived: medication.isArchived)
-                            medications.append(newMedication)
-                        }
-                        completion(.success(medications))
-                    } catch {
-                        completion(.failure(.invalidParametars))
+        
+        AF.request(request).responseData(completionHandler: { response in
+            switch response.result {
+            case .success(let data):
+                do {
+                    let medicationList = try JSONDecoder().decode([MedicationDTO].self, from: data)
+                    var medications : [Medication] = []
+                    for medication in medicationList{
+                        let newMedication = Medication.init(id: medication.id, name: medication.name, consumption: medication.consumption, isArchived: medication.isArchived)
+                        medications.append(newMedication)
                     }
-                case .failure(let error):
-                    debugPrint(error)
+                    completion(.success(medications))
+                } catch {
                     completion(.failure(.invalidParametars))
                 }
-            }).cURLDescription(calling: { description in
-                print(description)
-            })
+            case .failure(let error):
+                debugPrint(error)
+                completion(.failure(.invalidParametars))
+            }
+        }).cURLDescription(calling: { description in
+            print(description)
+        })
     }
     
     func setActive(medication: Medication, completion: @escaping(Result<Void, AppointmentsError>) -> Void ){
+        let body = try! JSONEncoder().encode(UpdateArchivedStatus(isArchived: false))
         let request = RequestFactory.makeRequest(method: .put,
                                                  path: "/medications/\(medication.id)",
-                                                 queryItems: [
-                                                    URLQueryItem(name: "isArchived", value: "false")
-                                                 ])
-                                                 
-            AF.request(request).responseData(completionHandler: { response in
-                switch response.result {
-                case .success(let data):
-                    completion(.success(()))
-                case .failure(let error):
-                    debugPrint(error)
-                    completion(.failure(.invalidParametars))
-                }
-            }).cURLDescription(calling: { description in
-                print(description)
-            })
+                                                 queryItems: [],
+                                                 body: body)
+        
+        AF.request(request).responseData(completionHandler: { response in
+            switch response.result {
+            case .success:
+                completion(.success(()))
+            case .failure(let error):
+                debugPrint(error)
+                completion(.failure(.invalidParametars))
+            }
+        }).cURLDescription(calling: { description in
+            print(description)
+        })
     }
     
     func setArchived(medication: Medication, completion: @escaping(Result<Void, AppointmentsError>) -> Void ){
+        
+        let body = try! JSONEncoder().encode(UpdateArchivedStatus(isArchived: true))
         let request = RequestFactory.makeRequest(method: .put,
                                                  path: "/medications/\(medication.id)",
-                                                 queryItems: [
-                                                    URLQueryItem(name: "isArchived", value: "true")
-                                                 ])
-                                                 
-            AF.request(request).responseData(completionHandler: { response in
-                switch response.result {
-                case .success(let data):
-                    completion(.success(()))
-                case .failure(let error):
-                    debugPrint(error)
-                    completion(.failure(.invalidParametars))
-                }
-            }).cURLDescription(calling: { description in
-                print(description)
-            })
+                                                 queryItems: [],
+                                                 body: body)
+        
+        AF.request(request).responseData(completionHandler: { response in
+            switch response.result {
+            case .success:
+                completion(.success(()))
+            case .failure(let error):
+                debugPrint(error)
+                completion(.failure(.invalidParametars))
+            }
+        }).cURLDescription(calling: { description in
+            print(description)
+        })
     }
     
     func changeMedication(old:Medication , new: Medication, completion: @escaping(Result<Bool, AppointmentsError>) -> Void){
+    }
+    
+    
+    struct UpdateArchivedStatus: Encodable {
+        let isArchived: Bool
     }
     
 }

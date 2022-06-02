@@ -207,7 +207,7 @@ class NewAppointmentController: UIViewController, UITableViewDelegate, UITableVi
                 
                 self.service.saveAppointment(newAppointment: newAppointment, medications: medications) { result in
                     switch result {
-                    case .success(let saved):
+                    case .success:
                         medicationList = []
                         self.navigationController?.popViewController(animated: true)
                     case .failure(let loginError):
