@@ -1029,12 +1029,12 @@
         <scene sceneID="wEP-Tt-Gjc">
             <objects>
                 <viewController id="jKb-Sb-UCs" customClass="SelectedMedicationController" customModule="HealthDiary" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="PwJ-Wu-7Qo">
+                    <view key="view" contentMode="scaleToFill" ambiguous="YES" id="PwJ-Wu-7Qo">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="ahN-xM-4l1">
-                                <rect key="frame" x="20" y="128" width="374" height="351"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="ahN-xM-4l1">
+                                <rect key="frame" x="20" y="128" width="374" height="200"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="SbX-Oq-agB">
                                         <rect key="frame" x="0.0" y="0.0" width="374" height="40"/>
@@ -1044,8 +1044,8 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textField>
-                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="led-QT-6Xe">
-                                        <rect key="frame" x="0.0" y="70" width="374" height="150"/>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="led-QT-6Xe">
+                                        <rect key="frame" x="0.0" y="70" width="374" height="130"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="150" id="8OB-E3-edg"/>
@@ -1054,28 +1054,12 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6Pq-mN-xKS">
-                                        <rect key="frame" x="0.0" y="250" width="374" height="50"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="50" id="2ck-Jy-kIg"/>
-                                        </constraints>
-                                        <state key="normal" title="Save changes"/>
-                                        <connections>
-                                            <action selector="onTapSave:" destination="jKb-Sb-UCs" eventType="touchUpInside" id="Yo1-LP-4if"/>
-                                        </connections>
-                                    </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Error" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Fj-6E-2wN">
-                                        <rect key="frame" x="0.0" y="330" width="374" height="21"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                        <color key="textColor" systemColor="systemRedColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="SbX-Oq-agB" firstAttribute="top" secondItem="ahN-xM-4l1" secondAttribute="top" id="lIK-iv-H7j"/>
                                 </constraints>
                             </stackView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SSK-aE-WJQ">
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SSK-aE-WJQ">
                                 <rect key="frame" x="20" y="723" width="374" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="bRD-0x-Abm"/>
@@ -1085,7 +1069,7 @@
                                     <action selector="onTapChange:" destination="jKb-Sb-UCs" eventType="touchUpInside" id="uZp-5g-CW8"/>
                                 </connections>
                             </button>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Pills.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="7jq-j4-FP0">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="Pills.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="7jq-j4-FP0">
                                 <rect key="frame" x="66" y="524" width="282" height="154"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="154" id="MX1-OV-f7h"/>
@@ -1107,20 +1091,11 @@
                             <constraint firstItem="7jq-j4-FP0" firstAttribute="top" secondItem="ahN-xM-4l1" secondAttribute="bottom" constant="45" id="zXi-Ek-HIh"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="EjB-bT-uNM">
-                        <barButtonItem key="rightBarButtonItem" title="Edit" id="Q11-mT-IGI">
-                            <connections>
-                                <action selector="onTapEdit:" destination="jKb-Sb-UCs" id="3WH-9X-jJr"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" id="EjB-bT-uNM"/>
                     <connections>
                         <outlet property="changeStatus" destination="SSK-aE-WJQ" id="dGZ-Hw-RVr"/>
                         <outlet property="consumptionTextView" destination="led-QT-6Xe" id="GhP-8P-z1j"/>
-                        <outlet property="editButton" destination="Q11-mT-IGI" id="umR-LJ-ptl"/>
-                        <outlet property="errorLabel" destination="1Fj-6E-2wN" id="LHg-fb-jEn"/>
                         <outlet property="medicationNameTextField" destination="SbX-Oq-agB" id="1qB-gl-KIn"/>
-                        <outlet property="saveChangesButton" destination="6Pq-mN-xKS" id="VJy-QY-Oog"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PZh-x2-ZdR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

@@ -28,19 +28,15 @@ class NewAppointmentController: UIViewController, UITableViewDelegate, UITableVi
         super.viewDidLoad()
         setUpElements()
         medicationList = []
-        
         tableView.dataSource = self
         tableView.delegate = self
-        
         noteInput.delegate = self
         noteInput.backgroundColor = UIColor.white
-        
         let datePicker = UIDatePicker()
         datePicker.datePickerMode = .date
         datePicker.addTarget(self, action: #selector(dataChange(datePicker:)), for: UIControl.Event.valueChanged)
         datePicker.frame.size = CGSize(width: 0, height: 300)
         datePicker.preferredDatePickerStyle = .wheels
-        
         dateInput.inputView = datePicker
         dateInput.text = formatDate(date: Date())
     }
@@ -119,17 +115,12 @@ class NewAppointmentController: UIViewController, UITableViewDelegate, UITableVi
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MedicationCell", for: indexPath)
-        
         cell.textLabel!.text = medicationList[indexPath.row].name
         cell.textLabel!.font =  UIFont.systemFont(ofSize: 18)
-        
         cell.detailTextLabel?.font = UIFont.systemFont(ofSize: 14)
-        
         cell.detailTextLabel?.text = "active"
         cell.detailTextLabel?.textColor = UIColor.init(red: 51/255, green: 203/255, blue: 203/255, alpha: 1)
-        
-        cell.imageView!.tintColor = UIColor.init(red: 51/255, green: 203/255, blue: 203/255, alpha: 1) 
-        
+        cell.imageView!.tintColor = UIColor.init(red: 51/255, green: 203/255, blue: 203/255, alpha: 1)
         return cell
     }
     
@@ -185,7 +176,6 @@ class NewAppointmentController: UIViewController, UITableViewDelegate, UITableVi
     
     @IBAction func onTapSave(_ sender: Any) {
         let error =  validateFields()
-        
         if error != nil {
             self.showError(error!)
         } else {
@@ -203,8 +193,6 @@ class NewAppointmentController: UIViewController, UITableViewDelegate, UITableVi
                 
                 let newAppointment = NewAppointmentData.init(type: type, date: date, note: note, userId: DataStorage.shared.loggedUser!.id, medications: [])
                 
-                
-                
                 self.service.saveAppointment(newAppointment: newAppointment, medications: medications) { result in
                     switch result {
                     case .success:
@@ -216,7 +204,6 @@ class NewAppointmentController: UIViewController, UITableViewDelegate, UITableVi
                     }
                 }
             }))
-            
             alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.destructive, handler: nil ))
             self.present(alert, animated: true, completion: nil)
         }

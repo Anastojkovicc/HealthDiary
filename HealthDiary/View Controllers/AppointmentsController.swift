@@ -24,8 +24,6 @@ class AppointmentsController: UIViewController, UITableViewDelegate, UITableView
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        setNav()
-        getList()
         tableView.dataSource = self
         tableView.delegate = self
         setUpElements()
@@ -36,10 +34,7 @@ class AppointmentsController: UIViewController, UITableViewDelegate, UITableView
         super.viewWillAppear(animated)
         getList()
         tableView.reloadData()
-//        setNav()
         setUpElements()
-        getList()
-        
     }
     
     func getList(){

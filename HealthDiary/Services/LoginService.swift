@@ -11,7 +11,6 @@ import Alamofire
 class LoginService {
     
     func login(email: String, password: String, completion: @escaping(Result<User, LoginError>) -> Void){
-        
         let loginData = LoginData.init(email: email, password: password)
         let loginBody = try! JSONEncoder().encode(loginData)
         let request = RequestFactory.makeRequest(method: .post,

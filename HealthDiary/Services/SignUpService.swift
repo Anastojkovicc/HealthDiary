@@ -28,7 +28,6 @@ class SignUpService {
                 case .failure:
                     completion(.failure(.invalidParametars))
                 }
-            
             })
     }
 }

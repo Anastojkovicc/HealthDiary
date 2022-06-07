@@ -23,13 +23,11 @@ class NewAppointmentService {
         AF.request(request)
             .responseData(completionHandler: { response in
                 switch response.result {
-                case .success(let data):
+                case .success:
                     completion(.success(()))
-                    
                 case .failure:
                     completion(.failure(.invalidParametars))
                 }
-                
             }).cURLDescription(calling: { description in
                 print(description)
             })

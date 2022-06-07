@@ -12,22 +12,16 @@ class ArchivedMedicationsController: UIViewController, UITableViewDelegate, UITa
     private var archivedMedications: [Medication] = []
     var searchedMedication = [Medication]()
     let service = MedicationsService()
-    
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var searchBar: UISearchBar!
     var searching : Bool = false
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        
         tableView.reloadData()
         tableView.dataSource = self
         tableView.delegate = self
-        
         navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.init(red: 51/255, green: 203/255, blue: 203/255, alpha: 1) ]
-        
         self.searchBar.delegate = self
         let searchTextField = self.searchBar.searchTextField
         searchTextField.textColor = UIColor.black
@@ -37,7 +31,6 @@ class ArchivedMedicationsController: UIViewController, UITableViewDelegate, UITa
         let glassIconView = searchTextField.leftView as! UIImageView
         glassIconView.image = glassIconView.image?.withRenderingMode(.alwaysTemplate)
         glassIconView.tintColor = UIColor.init(red: 51/255, green: 203/255, blue: 203/255, alpha: 1)
-        
         getList()
     }
     
@@ -103,14 +96,12 @@ class ArchivedMedicationsController: UIViewController, UITableViewDelegate, UITa
         } else {
             cell.textLabel!.text = archivedMedications[indexPath.row].name
             cell.detailTextLabel?.text = archivedMedications[indexPath.row].consumption
-            
         }
         cell.textLabel!.font =  UIFont.systemFont(ofSize: 20)
         cell.imageView!.tintColor = UIColor.init(red: 51/255, green: 203/255, blue: 203/255, alpha: 1)
         cell.detailTextLabel?.numberOfLines = 0;
         cell.detailTextLabel?.lineBreakMode = .byWordWrapping
         cell.detailTextLabel?.font =  UIFont.systemFont(ofSize: 16)
-        
         return cell
     }
     
@@ -127,5 +118,4 @@ class ArchivedMedicationsController: UIViewController, UITableViewDelegate, UITa
             }
         }
     }
-    
 }

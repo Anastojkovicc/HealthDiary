@@ -14,6 +14,10 @@ class MedicationsService {
     public var archivedMedications : [Medication] = []
     public var activeMedications : [Medication] = []
     
+    struct UpdateArchivedStatus: Encodable {
+        let isArchived: Bool
+    }
+    
     func getAllMedicationsList(user: User, completion: @escaping(Result<[Medication], AppointmentsError>) -> Void){
         let request = RequestFactory.makeRequest(method: .get,
                                                  path: "/medications",
@@ -134,7 +138,6 @@ class MedicationsService {
                                                  path: "/medications/\(medication.id)",
                                                  queryItems: [],
                                                  body: body)
-        
         AF.request(request).responseData(completionHandler: { response in
             switch response.result {
             case .success:
@@ -146,14 +149,6 @@ class MedicationsService {
         }).cURLDescription(calling: { description in
             print(description)
         })
-    }
-    
-    func changeMedication(old:Medication , new: Medication, completion: @escaping(Result<Bool, AppointmentsError>) -> Void){
-    }
-    
-    
-    struct UpdateArchivedStatus: Encodable {
-        let isArchived: Bool
     }
     
 }

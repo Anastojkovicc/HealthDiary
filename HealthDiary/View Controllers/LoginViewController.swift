@@ -14,14 +14,11 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var errorLabel: UILabel!
-   
     let service = LoginService()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpElements()
-        emailTextField.text = "ana@gmail.com"
-        passwordTextField.text = "AnaTest1!"
     }
     
     func setUpElements(){
@@ -46,7 +43,6 @@ class LoginViewController: UIViewController {
         } else {
             let email = emailTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
             let password =  passwordTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
-
             service.login(email: email, password: password) { result in
                 switch result {
                 case .success(let user):

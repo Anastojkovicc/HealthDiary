@@ -28,15 +28,11 @@ class NewMedicationViewController: UIViewController {
         self.navigationController?.navigationBar.backItem?.backBarButtonItem?.tintColor = UIColor.init(red: 6/255, green: 162/255, blue: 155/255, alpha: 1)
         newMedicationLabel.font = UIFont.systemFont(ofSize: 20)
         newMedicationLabel.textColor = UIColor.init(red: 6/255, green: 162/255, blue: 155/255, alpha: 1)
-        
         consumptionLabel.font = UIFont.systemFont(ofSize: 16)
         consumptionLabel.textColor = UIColor.init(red: 6/255, green: 162/255, blue: 155/255, alpha: 1)
-        
         Utilities.styleTextField(nameTextField)
         Utilities.styleTextView(consumptionTextView)
-        
         Utilities.styleFilledButton(saveButton)
-        
         errorLabel.alpha = 0
     }
     
@@ -46,7 +42,6 @@ class NewMedicationViewController: UIViewController {
         errorLabel.alpha = 1
     }
     
-    
     @IBAction func onTapSave(_ sender: Any) {
         if nameTextField.text?.trimmingCharacters( in: .whitespacesAndNewlines) == "" {
             nameTextField.layer.borderColor = UIColor.red.cgColor
@@ -54,12 +49,10 @@ class NewMedicationViewController: UIViewController {
         } else {
             let alert : UIAlertController = UIAlertController( title: "Add", message: "Do you really want to add this medication?", preferredStyle: UIAlertController.Style.alert)
             alert.addAction(UIAlertAction(title: "Save", style: UIAlertAction.Style.default, handler: { (myAlert) in
-                
                 let name =  self.nameTextField.text!.trimmingCharacters( in: .whitespacesAndNewlines)
                 let consumption = self.consumptionTextView.text?.trimmingCharacters(in: .whitespacesAndNewlines)
                 let newMedication = NewMedication.init(name: name, consumption: consumption ?? "")
                 medicationList.append(newMedication)
-                
                 self.navigationController?.popViewController(animated: true)
             }))
             alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.destructive, handler: nil ))

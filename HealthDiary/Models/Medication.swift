@@ -12,7 +12,6 @@ struct Medication: Decodable {
     let name: String
     let consumption: String
     var isArchived: Bool
-//    var appointments: [Appointment]
     
     mutating func archived() {
         isArchived = true

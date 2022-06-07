@@ -16,6 +16,7 @@ class SignUpViewController: UIViewController {
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var signUpButton: UIButton!
     @IBOutlet weak var errorLabel: UILabel!
+    let service = SignUpService()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,7 +25,6 @@ class SignUpViewController: UIViewController {
     
     func setUpElements(){
         errorLabel.alpha = 0
-        
         Utilities.styleTextField(firstNameTextField)
         Utilities.styleTextField(lastNameTextField)
         Utilities.styleTextField(emailTextField)
@@ -33,7 +33,6 @@ class SignUpViewController: UIViewController {
     }
     
     func validateFields() -> String? {
-        
         if firstNameTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" || lastNameTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" ||
             emailTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" ||
             passwordTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
@@ -61,8 +60,7 @@ class SignUpViewController: UIViewController {
             let password =  passwordTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
             let user = RegistrationData(firstName: firstName, lastName: lastName, email: email, password: password)
             
-            let service = SignUpService()
-            service.signUp(registrationData: user) { result in
+            self.service.signUp(registrationData: user) { result in
                 switch result {
                 case .success(let savedUser):
                     print(savedUser.firstName + " logged in ")

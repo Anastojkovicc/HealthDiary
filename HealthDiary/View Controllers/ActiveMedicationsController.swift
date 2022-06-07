@@ -13,20 +13,15 @@ class ActiveMedicationsController: UIViewController, UITableViewDelegate, UITabl
     var searchedMedication = [Medication]()
     let service = MedicationsService()
     
-    
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var searchBar: UISearchBar!
     var searching = false
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         getList()
-        
         tableView.dataSource = self
         tableView.delegate = self
-        
         self.searchBar.delegate = self
         let searchTextField = self.searchBar.searchTextField
         searchTextField.textColor = UIColor.black
@@ -43,7 +38,6 @@ class ActiveMedicationsController: UIViewController, UITableViewDelegate, UITabl
             $0.name.lowercased().prefix(searchText.count) == searchText.lowercased() || $0.name.lowercased().suffix(searchText.count) == searchText.lowercased()  }
         searching = true
         tableView.reloadData()
-        
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
@@ -66,9 +60,7 @@ class ActiveMedicationsController: UIViewController, UITableViewDelegate, UITabl
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
         getList()
-        
         if searching {
             searching = false
             searchBar.text = ""
@@ -105,11 +97,9 @@ class ActiveMedicationsController: UIViewController, UITableViewDelegate, UITabl
             cell.detailTextLabel?.text = activeMedications[indexPath.row].consumption
         }
         cell.textLabel!.font =  UIFont.systemFont(ofSize: 20)
-        
         cell.detailTextLabel?.numberOfLines = 0;
         cell.detailTextLabel?.lineBreakMode = .byWordWrapping
         cell.detailTextLabel?.font =  UIFont.systemFont(ofSize: 16)
-        
         cell.imageView!.tintColor = UIColor.init(red: 51/255, green: 203/255, blue: 203/255, alpha: 1)
         return cell
     }

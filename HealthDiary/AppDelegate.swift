@@ -13,15 +13,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        
-//        if let user = User.loadFromDisk(){
-//            DataStorage.shared.loggedUser = user
-//
-//            let tabsViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: Constants.StoryBoard.tabsViewController) as? UITabBarController
-//            UIApplication.shared.windows.first?.rootViewController = tabsViewController
-//            UIApplication.shared.windows.first?.makeKeyAndVisible()
-//
-//        }
         return true
     }
     

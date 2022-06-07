@@ -1,4 +1,4 @@
-//
+`//
 //  SelectedAppointmentController.swift
 //  HealthDiary
 //
@@ -25,29 +25,21 @@ class SelectedAppointmentController: UIViewController, UITableViewDelegate, UITa
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         tableView.dataSource = self
         tableView.delegate = self
-        
         if editMode == false {
             setUpElements()
         } else {
             setEditMode()
         }
-        
         dateTextField.delegate = self
-        
         let datePicker = UIDatePicker()
         datePicker.datePickerMode = .date
         datePicker.addTarget(self, action: #selector(dataChange(datePicker:)), for: .valueChanged)
         datePicker.frame.size = CGSize(width: 0, height: 300)
         datePicker.preferredDatePickerStyle = .wheels
-        
         dateTextField.inputView = datePicker
         dateTextField.text = formatDate(date: appointment?.date ?? Date())
-        
-       
-       
     }
     
     func closeDatePicker() {
@@ -60,14 +52,12 @@ class SelectedAppointmentController: UIViewController, UITableViewDelegate, UITa
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         if editMode == false {
             setUpElements()
         } else {
             setEditMode()
         }
-        
-        service.getAppointment(user: DataStorage.shared.loggedUser!, appointment: appointmentShort) { result in
+        service.getAppointment(userId: DataStorage.shared.loggedUser!.id, appointmentId: appointmentShort.id) { result in
             switch result {
             case .success(let app):
                 self.appointment = app
@@ -86,17 +76,14 @@ class SelectedAppointmentController: UIViewController, UITableViewDelegate, UITa
         Utilities.styleDisabledTextField(dateTextField)
         Utilities.styleDisabledTextView(noteTextView)
         Utilities.styleFilledButton(deleteAppointmentButton)
-        
         specialityTextField.isEnabled = false
         dateTextField.isEnabled = false
         noteTextView.isUserInteractionEnabled = false
-        
         specialityTextField.textAlignment = NSTextAlignment.center
         dateTextField.textAlignment = NSTextAlignment.center
         deleteAppointmentButton.setTitle("Delete", for: UIControl.State.normal)
         editAppointmentButton.title = "Edit"
         editAppointmentButton.tintColor = UIColor.init(red: 51/255, green: 203/255, blue: 203/255, alpha: 1)
-        
         errorLabel.alpha = 0
     }
     
@@ -105,11 +92,9 @@ class SelectedAppointmentController: UIViewController, UITableViewDelegate, UITa
         Utilities.styleTextField(dateTextField)
         Utilities.styleTextView(noteTextView)
         Utilities.styleFilledButton(deleteAppointmentButton)
-        
         specialityTextField.isEnabled = true
         dateTextField.isEnabled = true
         noteTextView.isUserInteractionEnabled = true
-        
         deleteAppointmentButton.setTitle("Save changes", for: UIControl.State.normal)
         editAppointmentButton.title = "Close"
         editAppointmentButton.tintColor = UIColor.black
@@ -118,7 +103,6 @@ class SelectedAppointmentController: UIViewController, UITableViewDelegate, UITa
     
     func setMedicationTable(){
         guard let appointment = appointment else { return }
-        
         if appointment.medications.isEmpty {
             medicationListLabel.alpha = 0
         } else {
@@ -143,10 +127,8 @@ class SelectedAppointmentController: UIViewController, UITableViewDelegate, UITa
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "AppMedicationCell", for: indexPath)
-        
         cell.textLabel?.text = appointment?.medications[indexPath.row].name
         cell.textLabel?.font = UIFont.systemFont(ofSize: 16)
-        
         cell.detailTextLabel?.font = UIFont.systemFont(ofSize: 14)
         if appointment?.medications != nil {
             if appointment!.medications[indexPath.row].isArchived {
@@ -157,8 +139,7 @@ class SelectedAppointmentController: UIViewController, UITableViewDelegate, UITa
                 cell.detailTextLabel?.textColor = UIColor.init(red: 51/255, green: 203/255, blue: 203/255, alpha: 1)
             }
         }
-        cell.imageView!.tintColor = UIColor.init(red: 51/255, green: 203/255, blue: 203/255, alpha: 1) 
-        
+        cell.imageView!.tintColor = UIColor.init(red: 51/255, green: 203/255, blue: 203/255, alpha: 1)
         return  cell
     }
     
@@ -170,7 +151,6 @@ class SelectedAppointmentController: UIViewController, UITableViewDelegate, UITa
         if(editMode){
             let alert : UIAlertController = UIAlertController( title: "Save", message: "Do you really want to save changes?", preferredStyle: UIAlertController.Style.alert)
             alert.addAction(UIAlertAction(title: "Yes", style: UIAlertAction.Style.default, handler: { (myAlert) in
-                
                 let dateFormatter = DateFormatter()
                 dateFormatter.dateFormat = "dd.MM.yyyy."
                 let date: Date = dateFormatter.date(from: self.dateTextField.text!.trimmingCharacters( in: .whitespacesAndNewlines))!
@@ -182,17 +162,14 @@ class SelectedAppointmentController: UIViewController, UITableViewDelegate, UITa
                     case .failure(let deleteError):
                         print(deleteError.localizedDescription)
                     }
-                    
                 }
             }))
-            
             alert.addAction(UIAlertAction(title: "No", style: UIAlertAction.Style.destructive, handler: nil ))
             self.present(alert, animated: true, completion: nil)
             
         } else {
             let alert : UIAlertController = UIAlertController( title: "Delete", message: "Do you really want to delete this appointment?", preferredStyle: UIAlertController.Style.alert)
             alert.addAction(UIAlertAction(title: "Yes", style: UIAlertAction.Style.default, handler: { (myAlert) in
-            
                 self.service.deleteAppointment(appointment: self.appointmentShort!) { result in
                     switch result {
                     case .success:
@@ -225,17 +202,15 @@ class SelectedAppointmentController: UIViewController, UITableViewDelegate, UITa
         } else {
             let alert : UIAlertController = UIAlertController( title: "Close", message: "Do you really want to discard changes?", preferredStyle: UIAlertController.Style.alert)
             alert.addAction(UIAlertAction(title: "Yes", style: UIAlertAction.Style.default, handler: { (myAlert) in
-                
                 self.specialityTextField.text = self.appointment?.type
                 self.noteTextView.text = self.appointment?.note
                 self.dateTextField.text = self.formatDate(date: self.appointment?.date ?? Date())
-                
                 self.editMode = false
                 self.setUpElements()
             }))
-            
             alert.addAction(UIAlertAction(title: "No", style: UIAlertAction.Style.destructive, handler: nil ))
             self.present(alert, animated: true, completion: nil)
         }
     }
 }
+`
